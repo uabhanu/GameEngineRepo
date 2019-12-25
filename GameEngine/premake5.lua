@@ -5,7 +5,7 @@ workspace "GameEngine"
 	{
 		"Debug",
 		"Release",
-		"Dist" [-- Distribution]
+		"Dist" --[ Distribution]
 	}
 
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
@@ -23,7 +23,7 @@ workspace "GameEngine"
 		"%{prj.name}/src/**.cpp"
 	}
 
-	include
+	includedirs
 	{
 		"%{prj.name}/vendor/spdlog/include"
 	}
@@ -53,7 +53,7 @@ workspace "GameEngine"
 		optimize "On"
 
 	filter "configurations:Dist"
-		defines "ENGINE_DIST" [-- Distribution]
+		defines "ENGINE_DIST"--[ Distribution]
 		optimize "On"
 
 	project "Sandbox"
@@ -70,9 +70,9 @@ workspace "GameEngine"
 		"%{prj.name}/src/**.cpp"
 	}
 
-	include
+	includedirs
 	{
-		"%{prj.name}/vendor/spdlog/include"
+		"Engine/vendor/spdlog/include",
 		"Engine/src"
 	}
 
@@ -100,5 +100,5 @@ workspace "GameEngine"
 		optimize "On"
 
 	filter "configurations:Dist"
-		defines "ENGINE_DIST" [-- Distribution]
+		defines "ENGINE_DIST" --[ Distribution]
 		optimize "On"
