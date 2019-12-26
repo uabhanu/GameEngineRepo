@@ -1,4 +1,6 @@
 #include "BhanuEngineApp.h"
+#include "BhanuEngine/Events/AppEvent.h"
+#include "BhanuEngine/Log.h"
 
 namespace BhanuEngine
 {
@@ -14,8 +16,8 @@ namespace BhanuEngine
 
 	void BhanuEngineApp::Run()
 	{
-		//WindowReSizeEvent e(1280 , 720);
-		//ENGINE_CORE_TRACE(e);
+		WindowResizeEvent e(1280 , 720);
+		ENGINE_CORE_TRACE(e);
 		while(true);
 	}
 }
