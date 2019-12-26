@@ -79,10 +79,10 @@ namespace BhanuEngine
 				}
 				return false;
 			}
-
-			inline std::ostream& operator<<(std::ostream& os , const Event& e) //Cherno didn't get this error with the same code
-			{
-				return os << e.ToString();
-			}
 	};
+
+	inline std::ostream& operator<<(std::ostream& os , const Event& e)
+	{
+		return os << e.ToString();
+	}
 }
