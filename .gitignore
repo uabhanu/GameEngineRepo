@@ -18,17 +18,12 @@
 # Executables
 *.app
 *.db
-*.exe
 *.out
 *.suo
 
 # Fortran module files
 *.mod
 *.smod
-
-# Precompiled Headers
-*.gch
-*.pch
 
 # Prerequisites
 *.d
