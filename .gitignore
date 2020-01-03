@@ -27,4 +27,12 @@
 
 # Prerequisites
 *.d
+*.filters
 *.ipch
+*.sln
+*.vcxproj
+*.user
+*.log
+*.tlog
+*.idb
+*.pdb

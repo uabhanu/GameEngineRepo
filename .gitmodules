@@ -1,0 +1,6 @@
+[submodule "GameEngine/GameEngine/Engine/vendor/GLFW"]
+	path = GameEngine/GameEngine/Engine/vendor/GLFW
+	url = https://github.com/TheCherno/glfw
+[submodule "GameEngine/Engine/vendor/GLFW"]
+	path = GameEngine/Engine/vendor/GLFW
+	url = https://github.com/TheCherno/glfw
