@@ -1,6 +1,5 @@
 workspace "GameEngine"
 	architecture "x64"
-	startproject "Sandbox"
 	
 	configurations
 	{
@@ -10,10 +9,6 @@ workspace "GameEngine"
 	}
 
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-
-	IncludeDir = {}
-	IncludeDir["GLFW"] = "Engine/vendor/GLFW/include"
-	include "Engine/vendor/GLFW"
 	
 	project "Engine"
 		location "Engine"
@@ -31,14 +26,7 @@ workspace "GameEngine"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
-	}
-
-	links
-	{
-		"GLFW",
-		"opengl32.lib"
+		"%{prj.name}/vendor/spdlog/include"
 	}
 
 	filter "system:windows"
