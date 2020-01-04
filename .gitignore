@@ -36,3 +36,6 @@
 *.tlog
 *.idb
 *.pdb
+.vs
+bin-int
+bin
