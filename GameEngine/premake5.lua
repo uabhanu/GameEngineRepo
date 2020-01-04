@@ -8,13 +8,7 @@ workspace "GameEngine"
 		"Dist" --[ Distribution]
 	}
 
-	--[ Distribution startproject "Sandbox" ] --[Uncomment this if Sandbox is not selected as startup project after project files generated]
-
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-
-	IncludeDir = {}
-	IncludeDir["GLFW"] = "Engine/vendor/GLFW/include"
-	include "Engine/vendor/GLFW"
 	
 	project "Engine"
 		location "Engine"
@@ -22,8 +16,6 @@ workspace "GameEngine"
 		language "C++"
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-		pchheader "EnginePCH.h"
-		pchsource "Engine/src/EnginePCH.cpp"
 
 	files
 	{
@@ -34,14 +26,7 @@ workspace "GameEngine"
 	includedirs
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
-	}
-
-	links
-	{
-		"GLFW",
-		"opengl32.lib"
+		"%{prj.name}/vendor/spdlog/include"
 	}
 
 	filter "system:windows"

@@ -1,4 +1,3 @@
-#include "EnginePCH.h" //This order matters
 #include "BhanuEngineApp.h"
 #include "BhanuEngine/Events/AppEvent.h"
 #include "BhanuEngine/Log.h"
