@@ -1,5 +1,7 @@
 #pragma once
 
+#include "BhanuEngine/Events/Event.h"
+#include "BhanuEngine/Events/AppEvent.h"
 #include "Window.h"
 
 namespace BhanuEngine
@@ -8,6 +10,7 @@ namespace BhanuEngine
 	{
 		private:
 		    bool m_IsRunning = true;
+			bool OnWindowClose(WindowCloseEvent& e);
 		    std::unique_ptr<Window> m_Window;
 		public:
 			BhanuEngineApp();

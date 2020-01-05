@@ -1,6 +1,5 @@
 #include "EnginePCH.h"
 #include "BhanuEngineApp.h"
-#include "BhanuEngine/Events/AppEvent.h"
 
 #include <GLFW/glfw3.h> //Don't change this order
 
@@ -20,7 +19,15 @@ namespace BhanuEngine
 
 	void BhanuEngineApp::OnEvent(Event& e)
 	{
-		ENGINE_CORE_INFO("{0}" , e);
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		ENGINE_CORE_TRACE("{0}" , e);
+	}
+
+	bool BhanuEngineApp::OnWindowClose(WindowCloseEvent& e)
+	{
+		m_IsRunning = false;
+		return true;
 	}
 
 	void BhanuEngineApp::Run()
