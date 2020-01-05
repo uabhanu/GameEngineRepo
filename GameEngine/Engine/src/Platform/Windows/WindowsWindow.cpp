@@ -1,12 +1,17 @@
 #include "EnginePCH.h"
 #include "WindowsWindow.h"
 #include "BhanuEngine/Events/AppEvent.h"
-#include "BhanuEngine/Events/KeyEvent.h" //Following Cherno, including this is causing errors possibly due to duplicate includes so don't do this unless needed
-#include "BhanuEngine/Events/MouseEvent.h" //Following Cherno, including this is causing errors possibly due to duplicate includes so don't do this unless needed
+#include "BhanuEngine/Events/KeyEvent.h"
+#include "BhanuEngine/Events/MouseEvent.h"
 
 namespace BhanuEngine
 {
 	static bool s_GLFWInitialised = false;
+
+	static void GLFWErrorCallback(int error, const char* description)
+	{
+		ENGINE_CORE_ERROR("GLFW Error ({0}) : {1} " , error , description);
+	}
 
 	Window* Window::Create(const WindowProps& props)
 	{
@@ -36,6 +41,7 @@ namespace BhanuEngine
 			//TODO glfwTerminate on system shutdown
 			int success = glfwInit();
 			ENGINE_CORE_ASSERT(success , "Sir Bhanu, Could not initialise GLFW! :(");
+			glfwSetErrorCallback(GLFWErrorCallback);
 			s_GLFWInitialised = true;
 		}
 
@@ -45,7 +51,7 @@ namespace BhanuEngine
 		SetVSync(true);
 
 		//Set GLFW Callbacks
-		glfwSetWindowSizeCallback(m_Window , [](GLFWwindow* window , int width , int height)
+		glfwSetWindowSizeCallback(m_Window , [](GLFWwindow* window , int width , int height) //[] is new thing you may need to look into further for better understanding
 		{
 			WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
 			data.Width = width;
@@ -69,20 +75,62 @@ namespace BhanuEngine
 			switch(action)
 			{
 				case GLFW_PRESS:
+				{ //Without this scope, reinitialisation error occurs
 					KeyPressedEvent event(key , 0);
 					data.EventCallback(event);
-				break;
+					break;
+				}
 
 				case GLFW_RELEASE:
+				{ //Without this scope, reinitialisation error occurs
 					KeyReleasedEvent event(key);
 					data.EventCallback(event);
-				break;
+					break;	
+				}
 
 				case GLFW_REPEAT:
+				{ //Without this scope, reinitialisation error occurs
 					KeyPressedEvent event(key , 1);
 					data.EventCallback(event);
-				break;
+					break;
+				}
 			}
+		});
+
+		glfwSetMouseButtonCallback(m_Window , [](GLFWwindow* window , int button , int action , int mods)
+		{
+			WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+
+			switch(action)
+			{
+				case GLFW_PRESS:
+				{ //Without this scope, reinitialisation error occurs
+					MouseButtonPressedEvent event(button);
+					data.EventCallback(event);
+					break;
+				}
+
+				case GLFW_RELEASE:
+				{ //Without this scope, reinitialisation error occurs
+					MouseButtonReleasedEvent event(button);
+					data.EventCallback(event);
+					break;
+				}
+			}
+		});
+
+		glfwSetScrollCallback(m_Window , [](GLFWwindow* window , double xOffset , double yOffset)
+		{
+			WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+			MouseScrolledEvent event((float)xOffset , (float)yOffset);
+			data.EventCallback(event);
+		});
+
+		glfwSetCursorPosCallback(m_Window , [](GLFWwindow* window , double xPos , double yPos)
+		{
+			WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+			MouseMovedEvent event((float)xPos , (float)yPos);
+			data.EventCallback(event);
 		});
 	}
 
