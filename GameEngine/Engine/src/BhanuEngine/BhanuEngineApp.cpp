@@ -6,14 +6,21 @@
 
 namespace BhanuEngine
 {
+	#define BIND_EVENT_FN(x) std::bind(&BhanuEngineApp::x , this , std::placeholders::_1) //Wo!!!!!!
 	BhanuEngineApp::BhanuEngineApp()
 	{
 		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 	}
 		
 	BhanuEngineApp::~BhanuEngineApp()
 	{
 
+	}
+
+	void BhanuEngineApp::OnEvent(Event& e)
+	{
+		ENGINE_CORE_INFO("{0}" , e);
 	}
 
 	void BhanuEngineApp::Run()

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "BhanuEngine/Events/Event.h"
+#include "Event.h"
 
 namespace BhanuEngine 
 {
 
-	class WindowResizeEvent : public Event
+	class ENGINE_API WindowResizeEvent : public Event
 	{
 		private:
 		    unsigned int m_Width , m_Height;
@@ -28,7 +28,7 @@ namespace BhanuEngine
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class WindowCloseEvent : public Event
+	class ENGINE_API WindowCloseEvent : public Event
 	{
 		public:
 		    WindowCloseEvent() = default;
@@ -37,7 +37,7 @@ namespace BhanuEngine
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class AppTickEvent : public Event
+	class ENGINE_API AppTickEvent : public Event
 	{
 		public:
 		    AppTickEvent() = default;
@@ -46,7 +46,7 @@ namespace BhanuEngine
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class AppUpdateEvent : public Event
+	class ENGINE_API AppUpdateEvent : public Event
 	{
 		public:
 		    AppUpdateEvent() = default;
@@ -55,7 +55,7 @@ namespace BhanuEngine
 			EVENT_CLASS_CATEGORY(EventCategoryApplication)
 	};
 
-	class AppRenderEvent : public Event
+	class ENGINE_API AppRenderEvent : public Event
 	{
 		public:
 		    AppRenderEvent() = default;

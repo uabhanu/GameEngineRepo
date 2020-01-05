@@ -1,12 +1,11 @@
 #pragma once
 
-#include "BhanuEngine/Events/Event.h"
-#include "BhanuEngine/Core/Input.h"
+#include "Event.h"
 
 namespace BhanuEngine 
 {
 
-	class MouseMovedEvent : public Event
+	class ENGINE_API MouseMovedEvent : public Event
 	{
 		private:
 		    float m_MouseX , m_MouseY;
@@ -29,7 +28,7 @@ namespace BhanuEngine
 			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	};
 
-	class MouseScrolledEvent : public Event
+	class ENGINE_API MouseScrolledEvent : public Event
 	{
 		private:
 		    float m_XOffset , m_YOffset;
@@ -52,24 +51,24 @@ namespace BhanuEngine
 			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	};
 
-	class MouseButtonEvent : public Event
+	class ENGINE_API MouseButtonEvent : public Event
 	{
 		protected:
-		    MouseButtonEvent(MouseCode button)
+		    MouseButtonEvent(int button)
 			    : m_Button(button) {}
 
-			MouseCode m_Button;
+			int m_Button;
 
 		public:
-		    inline MouseCode GetMouseButton() const { return m_Button; }
+		    inline int GetMouseButton() const { return m_Button; }
 
 			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	};
 
-	class MouseButtonPressedEvent : public MouseButtonEvent
+	class ENGINE_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
 		public:
-		    MouseButtonPressedEvent(MouseCode button)
+		    MouseButtonPressedEvent(int button)
 			    : MouseButtonEvent(button) {}
 
 			std::string ToString() const override
@@ -82,10 +81,10 @@ namespace BhanuEngine
 			EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class MouseButtonReleasedEvent : public MouseButtonEvent
+	class ENGINE_API MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 		public:
-		    MouseButtonReleasedEvent(MouseCode button)
+		    MouseButtonReleasedEvent(int button)
 			    : MouseButtonEvent(button) {}
 
 			std::string ToString() const override

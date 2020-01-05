@@ -13,6 +13,7 @@ namespace BhanuEngine
 			BhanuEngineApp();
 			virtual ~BhanuEngineApp();
 
+			void OnEvent(Event& e);
 			void Run();
 	};
 

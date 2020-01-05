@@ -1,32 +1,30 @@
 #pragma once
 
-#include "BhanuEngine/Events/Event.h"
-#include "BhanuEngine/Core/Input.h"
+#include "Event.h"
 
 namespace BhanuEngine 
 {
-
-	class KeyEvent : public Event
+	class ENGINE_API KeyEvent : public Event
 	{
 		protected:
-		    KeyEvent(KeyCode keycode)
+		    KeyEvent(int keycode)
 			    : m_KeyCode(keycode) {}
 
-			KeyCode m_KeyCode;
+			int m_KeyCode;
 
 		public:
-		    inline KeyCode GetKeyCode() const { return m_KeyCode; }
+		    inline int GetKeyCode() const { return m_KeyCode; }
 
 		    EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	};
 
-	class KeyPressedEvent : public KeyEvent
+	class ENGINE_API KeyPressedEvent : public KeyEvent
 	{
 		private:
 		    int m_RepeatCount;
 
 		public:
-		    KeyPressedEvent(KeyCode keycode, int repeatCount)
+		    KeyPressedEvent(int keycode, int repeatCount)
 			    : KeyEvent(keycode), m_RepeatCount(repeatCount) {}
 
 			inline int GetRepeatCount() const { return m_RepeatCount; }
@@ -41,10 +39,10 @@ namespace BhanuEngine
 			EVENT_CLASS_TYPE(KeyPressed)
 	};
 
-	class KeyReleasedEvent : public KeyEvent
+	class ENGINE_API KeyReleasedEvent : public KeyEvent
 	{
 		public:
-		    KeyReleasedEvent(KeyCode keycode)
+		    KeyReleasedEvent(int keycode)
 			    : KeyEvent(keycode) {}
 
 			std::string ToString() const override
@@ -57,10 +55,10 @@ namespace BhanuEngine
 			EVENT_CLASS_TYPE(KeyReleased)
 	};
 
-	class KeyTypedEvent : public KeyEvent
+	/*class ENGINE_API KeyTypedEvent : public KeyEvent
 	{
 		public:
-		    KeyTypedEvent(KeyCode keycode)
+		    KeyTypedEvent(int keycode)
 			    : KeyEvent(keycode) {}
 
 			std::string ToString() const override
@@ -71,5 +69,5 @@ namespace BhanuEngine
 			}
 
 			EVENT_CLASS_TYPE(KeyTyped)
-	};
+	};*/
 }
