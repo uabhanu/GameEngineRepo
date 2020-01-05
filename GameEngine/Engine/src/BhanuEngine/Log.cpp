@@ -3,8 +3,8 @@
 
 namespace BhanuEngine
 {
-	std::shared_ptr<spdlog::logger> Log::s_ClientLogger; //Looks like declaring twice once in header file and now, ask Sri
-	std::shared_ptr<spdlog::logger> Log::s_CoreLogger; // Same as above
+	std::shared_ptr<spdlog::logger> Log::s_ClientLogger;
+	std::shared_ptr<spdlog::logger> Log::s_CoreLogger;
 
 	void Log::Init()
 	{
