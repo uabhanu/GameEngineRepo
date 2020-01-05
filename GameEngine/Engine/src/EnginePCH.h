@@ -12,6 +12,8 @@
 #include <utility>
 #include <vector>
 
+#include "BhanuEngine/Log.h"
+
 
 #ifdef ENGINE_PLATFORM_WINDOWS
     #include <Windows.h>

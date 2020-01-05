@@ -1,7 +1,6 @@
 #include "EnginePCH.h"
 #include "BhanuEngineApp.h"
 #include "BhanuEngine/Events/AppEvent.h"
-#include "BhanuEngine/Log.h"
 
 #include <GLFW/glfw3.h> //Don't change this order
 
