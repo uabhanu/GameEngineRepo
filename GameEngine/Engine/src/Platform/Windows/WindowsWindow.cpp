@@ -47,6 +47,8 @@ namespace BhanuEngine
 
 		m_Window = glfwCreateWindow((int)props.Width , (int)props.Height , m_Data.Title.c_str() , nullptr , nullptr);
 		glfwMakeContextCurrent(m_Window);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		ENGINE_CORE_ASSERT(status , "Sir Bhanu, Failed to initialise Glad :(");
 		glfwSetWindowUserPointer(m_Window , &m_Data);
 		SetVSync(true);
 

@@ -12,7 +12,10 @@ workspace "GameEngine"
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 	
 	IncludeDir = {}
+	IncludeDir["Glad"] = "Engine/vendor/GLad/include"
 	IncludeDir["GLFW"] = "Engine/vendor/GLFW/include"
+
+	include "Engine/vendor/Glad"
 	include "Engine/vendor/GLFW"
 	
 	project "Engine"
@@ -34,11 +37,13 @@ workspace "GameEngine"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.Glad}",
 		"%{IncludeDir.GLFW}"
 	}
 	
 	links
 	{
+		"Glad",
 		"GLFW",
 		"opengl32.lib"
 	}
@@ -51,7 +56,8 @@ workspace "GameEngine"
 	defines
 	{
 		"ENGINE_PLATFORM_WINDOWS",
-		"ENGINE_BUILD_DLL"		
+		"ENGINE_BUILD_DLL"
+		--"GLFW_INCLUDE_NONE" --This is causing errors in your case so leave it for now
 	}
 
 	postbuildcommands
