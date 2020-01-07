@@ -27,7 +27,7 @@ namespace BhanuEngine
 		{
 			(*--it)->OnEvent(e);
 
-			if(e.Handled)
+			if(e.m_Handled) //May or may not be same as e.Handled Cherno used
 				break;
 		}
 	}

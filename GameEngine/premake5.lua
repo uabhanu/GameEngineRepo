@@ -60,14 +60,17 @@ workspace "GameEngine"
 	}
 
 	filter "configurations:Debug"
+		buildoptions "/MDd" --Multi-Threaded DLL debug
 		defines "ENGINE_DEBUG"
 		symbols "On"
 
 	filter "configurations:Release"
+		buildoptions "/MD" --Multi-Threaded DLL
 		defines "ENGINE_RELEASE"
 		optimize "On"
 
 	filter "configurations:Dist"
+		buildoptions "/MD"
 		defines "ENGINE_DIST"--[ Distribution]
 		optimize "On"
 
@@ -107,13 +110,16 @@ workspace "GameEngine"
 	}
 
 	filter "configurations:Debug"
+		buildoptions "/MDd"
 		defines "ENGINE_DEBUG"
 		symbols "On"
 
 	filter "configurations:Release"
+		buildoptions "/MD"
 		defines "ENGINE_RELEASE"
 		optimize "On"
 
 	filter "configurations:Dist"
+		buildoptions "/MD"
 		defines "ENGINE_DIST" --[ Distribution]
 		optimize "On"

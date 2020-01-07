@@ -35,12 +35,13 @@ namespace BhanuEngine
 
 	class ENGINE_API Event
 	{
-		friend class EventDispatcher;
+		//friend class EventDispatcher; //Cherno accessed Handled somehow which could be m_Handled of this class so commented this line for now & I have changed m_Handled access to public from protected
 
 		protected:
-		    bool m_Handled = false;
+		    //bool m_Handled = false; //Until it's confirmed that e.Handled of BhanuEngineApp.cpp is not the same as m_Handled of this file
 
 		public:
+		    bool m_Handled = false;
 		    virtual EventType GetEventType() const = 0;
 			virtual const char* GetName() const = 0;
 			virtual int GetCategoryFlags() const = 0;
