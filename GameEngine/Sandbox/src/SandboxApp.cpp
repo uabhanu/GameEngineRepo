@@ -1,4 +1,5 @@
 #include "BhanuEngine.h"
+//#include "BhanuEngine/ImGUI/ImGUILayer.h" //This is causing the <imgui.h> of ImGUIOpenGLRenderer.h not being included properly for some reason
 
 class BhanuTestLayer : public BhanuEngine::Layer
 {
@@ -25,6 +26,7 @@ class SandboxApp : public BhanuEngine::BhanuEngineApp
 		SandboxApp()
 		{
 			PushLayer(new BhanuTestLayer());
+			//PushOverlay(new BhanuEngine::ImGUILayer());
 		}
 
 		~SandboxApp()

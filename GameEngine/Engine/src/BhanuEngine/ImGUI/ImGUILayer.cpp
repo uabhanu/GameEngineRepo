@@ -69,6 +69,8 @@ namespace BhanuEngine
 		static bool show = true;
 		float time = (float)glfwGetTime();
 		ImGuiIO& io = ImGui::GetIO();
+		BhanuEngineApp& app = BhanuEngineApp::Get();
+		io.DisplaySize = ImVec2(app.GetWindow().GetWidth() , app.GetWindow().GetHeight());
 		io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
 		ImGui::ShowDemoWindow(&show);
 	}

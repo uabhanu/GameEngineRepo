@@ -1,14 +1,14 @@
 #pragma once
 
+#include "BhanuEngine/BhanuEngineApp.h"
 #include "BhanuEngine/Layer.h"
 #include "Platform/OpenGL/ImGUIOpenGLRenderer.h"
 
 #include <GLFW/glfw3.h>
-#include <imgui.h>
 
 namespace BhanuEngine
 {
-	class ImGUILayer : public Layer
+	class ENGINE_API ImGUILayer : public Layer
 	{
 		private:
 		    float m_Time = 0.0f;

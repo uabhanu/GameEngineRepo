@@ -7,8 +7,12 @@ namespace BhanuEngine
 {
 	#define BIND_EVENT_FN(x) std::bind(&BhanuEngineApp::x , this , std::placeholders::_1) //Wo!!!!!!
 
+	BhanuEngineApp* BhanuEngineApp::s_Instance = nullptr;
+
 	BhanuEngineApp::BhanuEngineApp()
 	{
+		ENGINE_CORE_ASSERT(!s_Instance , "Sir Bhanu, Bhanu Engine App already exists :)");
+		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 	}

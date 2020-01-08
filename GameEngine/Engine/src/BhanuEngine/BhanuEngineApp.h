@@ -10,6 +10,7 @@ namespace BhanuEngine
 	class ENGINE_API BhanuEngineApp
 	{
 		private:
+		    static BhanuEngineApp* s_Instance;
 		    bool m_IsRunning = true;
 			bool OnWindowClose(WindowCloseEvent& e);
 			LayerStack m_LayerStack;
@@ -23,6 +24,9 @@ namespace BhanuEngine
 			void PushLayer(Layer* layer);
 			void PushOverlay(Layer* layer);
 			void Run();
+
+			inline static BhanuEngineApp& Get() { return *s_Instance; }
+			inline Window& GetWindow() { return *m_Window; }
 	};
 
 	BhanuEngineApp* CreateApplication();
