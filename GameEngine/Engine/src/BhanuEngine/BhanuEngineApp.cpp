@@ -46,11 +46,13 @@ namespace BhanuEngine
 	void BhanuEngineApp::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach(); //Without this line, you will get a run time error
 	}
 
 	void BhanuEngineApp::PushOverlay(Layer* layer)
 	{
 		m_LayerStack.PushOverlay(layer);
+		layer->OnAttach(); //Without this line, you will get a run time error
 	}
 
 	void BhanuEngineApp::Run()

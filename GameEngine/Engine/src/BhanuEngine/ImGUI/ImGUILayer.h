@@ -2,9 +2,6 @@
 
 #include "BhanuEngine/BhanuEngineApp.h"
 #include "BhanuEngine/Layer.h"
-#include "Platform/OpenGL/ImGUIOpenGLRenderer.h"
-
-#include <GLFW/glfw3.h>
 
 namespace BhanuEngine
 {
