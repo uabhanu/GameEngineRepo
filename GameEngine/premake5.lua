@@ -16,9 +16,11 @@ workspace "GameEngine"
 	IncludeDir["GLFW"] = "Engine/vendor/GLFW/include"
 	IncludeDir["ImGUI"] = "Engine/vendor/imgui"
 
-	include "Engine/vendor/Glad"
-	include "Engine/vendor/GLFW"
-	include "Engine/vendor/imgui"
+	group "Dependencies"
+		include "Engine/vendor/Glad"
+		include "Engine/vendor/GLFW"
+		include "Engine/vendor/imgui"
+	group ""
 	
 	project "Engine"
 		location "Engine"
@@ -66,7 +68,7 @@ workspace "GameEngine"
 
 	postbuildcommands
 	{
-		("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+		("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 	}
 
 	filter "configurations:Debug"
