@@ -55,7 +55,7 @@ namespace BhanuEngine
 			EVENT_CLASS_TYPE(KeyReleased)
 	};
 
-	/*class ENGINE_API KeyTypedEvent : public KeyEvent
+	class ENGINE_API KeyTypedEvent : public KeyEvent
 	{
 		public:
 		    KeyTypedEvent(int keycode)
@@ -69,5 +69,5 @@ namespace BhanuEngine
 			}
 
 			EVENT_CLASS_TYPE(KeyTyped)
-	};*/
+	};
 }

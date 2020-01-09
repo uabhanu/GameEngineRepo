@@ -1,16 +1,18 @@
-#include <imgui.h>
-
 #include "EnginePCH.h"
 #include "ImGUILayer.h"
 #include "Platform/OpenGL/ImGUIOpenGLRenderer.h"
 
-#include <GLFW/glfw3.h> //Don't change this order
+//Temporary according to Cherno but not sure if I can remove GLFW/glfw3.h at all as it's giving me errors
+//Don't change this order
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <imgui.h>
 
 namespace BhanuEngine
 {
 	ImGUILayer::ImGUILayer()
+		: Layer("ImGUI Layer")
 	{
-
 	}
 
 	ImGUILayer::~ImGUILayer()
@@ -61,7 +63,86 @@ namespace BhanuEngine
 
 	void ImGUILayer::OnEvent(Event& event)
 	{
+		EventDispatcher dispatcher(event);
 
+		dispatcher.Dispatch<KeyPressedEvent>(ENGINE_BIND_EVENT(ImGUILayer::OnKeyPressedEvent));
+		dispatcher.Dispatch<KeyReleasedEvent>(ENGINE_BIND_EVENT(ImGUILayer::OnKeyReleasedEvent));
+		dispatcher.Dispatch<KeyTypedEvent>(ENGINE_BIND_EVENT(ImGUILayer::OnKeyTypedEvent));
+		dispatcher.Dispatch<MouseButtonPressedEvent>(ENGINE_BIND_EVENT(ImGUILayer::OnMouseButtonPressedEvent));
+		dispatcher.Dispatch<MouseButtonReleasedEvent>(ENGINE_BIND_EVENT(ImGUILayer::OnMouseButtonReleasedEvent));
+		dispatcher.Dispatch<MouseMovedEvent>(ENGINE_BIND_EVENT(ImGUILayer::OnMouseMovedEvent));
+		dispatcher.Dispatch<MouseScrolledEvent>(ENGINE_BIND_EVENT(ImGUILayer::OnMouseScrolledEvent));
+		dispatcher.Dispatch<WindowResizeEvent>(ENGINE_BIND_EVENT(ImGUILayer::OnWindowResizeEvent));
+	}
+
+	bool ImGUILayer::OnKeyPressedEvent(KeyPressedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+
+		io.KeysDown[e.GetKeyCode()] = true;
+		io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+		io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+		io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+		io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER]; //This is Windows Button, Mac Button, etc.
+
+		return false;
+	}
+
+	bool ImGUILayer::OnKeyReleasedEvent(KeyReleasedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.KeysDown[e.GetKeyCode()] = false;
+		return false;
+	}
+
+	bool ImGUILayer::OnKeyTypedEvent(KeyTypedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+
+		int keycode = e.GetKeyCode();
+
+		if(keycode > 0 && keycode < 0x10000)
+			io.AddInputCharacter((unsigned short)keycode);
+
+		return false;
+	}
+
+	bool ImGUILayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.MouseDown[e.GetMouseButton()] = true;
+		return false;
+	}
+
+	bool ImGUILayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.MouseDown[e.GetMouseButton()] = false;
+		return false;
+	}
+
+	bool ImGUILayer::OnMouseMovedEvent(MouseMovedEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.MousePos = ImVec2(e.GetX() , e.GetY());
+		return false;
+	}
+
+	bool ImGUILayer::OnMouseScrolledEvent(MouseScrolledEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.MouseWheelH += e.GetXOffset();
+		io.MouseWheel += e.GetYOffset();
+		return false;
+	}
+
+	bool ImGUILayer::OnWindowResizeEvent(WindowResizeEvent& e)
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		io.DisplaySize = ImVec2(e.GetWidth() , e.GetHeight());
+		io.DisplayFramebufferScale = ImVec2(1.0f , 1.0f);
+		glViewport(0 , 0 , e.GetWidth() , e.GetHeight());
+		return false;
 	}
 
 	void ImGUILayer::OnUpdate()
