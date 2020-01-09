@@ -24,6 +24,7 @@ workspace "GameEngine"
 		location "Engine"
 		kind "SharedLib"
 		language "C++"
+		staticruntime "off"
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 		pchheader "EnginePCH.h"
@@ -54,7 +55,6 @@ workspace "GameEngine"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 	defines
@@ -70,24 +70,25 @@ workspace "GameEngine"
 	}
 
 	filter "configurations:Debug"
-		buildoptions "/MDd" --Multi-Threaded DLL debug
 		defines "ENGINE_DEBUG"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
-		buildoptions "/MD" --Multi-Threaded DLL
 		defines "ENGINE_RELEASE"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
-		buildoptions "/MD"
 		defines "ENGINE_DIST"--[ Distribution]
+		runtime "Release"
 		optimize "On"
 
 	project "Sandbox"
 		location "Sandbox"
 		kind "ConsoleApp"
 		language "C++"
+		staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -111,7 +112,6 @@ workspace "GameEngine"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 	defines
@@ -120,16 +120,16 @@ workspace "GameEngine"
 	}
 
 	filter "configurations:Debug"
-		buildoptions "/MDd"
 		defines "ENGINE_DEBUG"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release"
-		buildoptions "/MD"
 		defines "ENGINE_RELEASE"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist"
-		buildoptions "/MD"
 		defines "ENGINE_DIST" --[ Distribution]
+		runtime "Release"
 		optimize "On"
