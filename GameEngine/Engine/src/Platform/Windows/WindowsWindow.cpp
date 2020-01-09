@@ -53,20 +53,18 @@ namespace BhanuEngine
 		SetVSync(true);
 
 		//Set GLFW Callbacks
-		glfwSetWindowSizeCallback(m_Window , [](GLFWwindow* window , int width , int height) //[] is new thing you may need to look into further for better understanding
+
+		glfwSetCharCallback(m_Window , [](GLFWwindow* window , unsigned int keycode)
 		{
 			WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
-			data.Width = width;
-			data.Height = height;
-
-			WindowResizeEvent event(width , height);
+			KeyTypedEvent event(keycode);
 			data.EventCallback(event);
 		});
 
-		glfwSetWindowCloseCallback(m_Window , [](GLFWwindow* window)
+		glfwSetCursorPosCallback(m_Window , [](GLFWwindow* window , double xPos , double yPos)
 		{
 			WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
-			WindowCloseEvent event; 
+			MouseMovedEvent event((float)xPos , (float)yPos);
 			data.EventCallback(event);
 		});
 
@@ -99,13 +97,6 @@ namespace BhanuEngine
 			}
 		});
 
-		glfwSetCharCallback(m_Window , [](GLFWwindow* window , unsigned int keycode)
-		{
-			WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
-			KeyTypedEvent event(keycode);
-			data.EventCallback(event);
-		});
-
 		glfwSetMouseButtonCallback(m_Window , [](GLFWwindow* window , int button , int action , int mods)
 		{
 			WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
@@ -135,10 +126,20 @@ namespace BhanuEngine
 			data.EventCallback(event);
 		});
 
-		glfwSetCursorPosCallback(m_Window , [](GLFWwindow* window , double xPos , double yPos)
+		glfwSetWindowCloseCallback(m_Window , [](GLFWwindow* window)
 		{
 			WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
-			MouseMovedEvent event((float)xPos , (float)yPos);
+			WindowCloseEvent event; 
+			data.EventCallback(event);
+		});
+
+		glfwSetWindowSizeCallback(m_Window , [](GLFWwindow* window , int width , int height) //[] is new thing you may need to look into further for better understanding
+		{
+			WindowData& data = *(WindowData*)(glfwGetWindowUserPointer(window));
+			data.Width = width;
+			data.Height = height;
+
+			WindowResizeEvent event(width , height);
 			data.EventCallback(event);
 		});
 	}
