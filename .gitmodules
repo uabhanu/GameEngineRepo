@@ -1,7 +1,3 @@
-[submodule "GameEngine/Engine/vendor/imgui"]
-	path = GameEngine/Engine/vendor/imgui
-	url = https://github.com/TheCherno/imgui
-	
 [submodule "GameEngine/Engine/vendor/spdlog"]
 	path = GameEngine/Engine/vendor/spdlog
 	url = https://github.com/gabime/spdlog
