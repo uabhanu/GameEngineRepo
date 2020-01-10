@@ -37,6 +37,10 @@ namespace BhanuEngine
 			inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 			void SetVSync(bool enabled) override;
 			bool IsVSync() const override;
+			
+			//Since there was no way of accessing the Window, this will expose the native window without having to make the m_Window
+			//public which is the worst way to handle this
+			inline virtual void* GetNativeWindow() const { return m_Window; }
 	};
 }
 

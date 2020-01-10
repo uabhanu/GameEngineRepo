@@ -33,5 +33,8 @@ namespace BhanuEngine
 			virtual void SetVSync(bool enabled) = 0;
 			virtual bool IsVSync() const = 0;
 			static Window* Create(const WindowProps& props = WindowProps());
+			
+			//This will return a native platform window
+			virtual void* GetNativeWindow() const = 0;
 	};
 }
