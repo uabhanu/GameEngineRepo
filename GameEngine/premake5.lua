@@ -15,8 +15,10 @@ workspace "GameEngine"
 	IncludeDir["Glad"] = "Engine/vendor/GLad/include"
 	IncludeDir["GLFW"] = "Engine/vendor/GLFW/include"
 
-	include "Engine/vendor/Glad"
-	include "Engine/vendor/GLFW"
+	group "Dependencies"
+		include "Engine/vendor/Glad"
+		include "Engine/vendor/GLFW"
+	group ""
 	
 	project "Engine"
 		location "Engine"
@@ -62,22 +64,22 @@ workspace "GameEngine"
 
 	postbuildcommands
 	{
-		("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+		("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 	}
 
 	filter "configurations:Debug"
-		buildoptions "/MDd" --Multi-Threaded DLL debug
 		defines "ENGINE_DEBUG"
+		staticruntime "off"
 		symbols "On"
 
 	filter "configurations:Release"
-		buildoptions "/MD" --Multi-Threaded DLL
 		defines "ENGINE_RELEASE"
+		staticruntime "off"
 		optimize "On"
 
 	filter "configurations:Dist"
-		buildoptions "/MD"
 		defines "ENGINE_DIST"--[ Distribution]
+		staticruntime "off"
 		optimize "On"
 
 	project "Sandbox"
@@ -107,7 +109,6 @@ workspace "GameEngine"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 	defines
@@ -116,16 +117,16 @@ workspace "GameEngine"
 	}
 
 	filter "configurations:Debug"
-		buildoptions "/MDd"
 		defines "ENGINE_DEBUG"
+		staticruntime "off"
 		symbols "On"
 
 	filter "configurations:Release"
-		buildoptions "/MD"
 		defines "ENGINE_RELEASE"
+		staticruntime "off"
 		optimize "On"
 
 	filter "configurations:Dist"
-		buildoptions "/MD"
 		defines "ENGINE_DIST" --[ Distribution]
+		staticruntime "off"
 		optimize "On"
