@@ -53,8 +53,9 @@
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
+//#include <imgui.h> //Uncomment this if needed
+
 #include "EnginePCH.h"
-#include "imgui.h"
 #include "ImGUIOpenGLRenderer.h"
 #include "glad/glad.h"
 #if defined(_MSC_VER) && _MSC_VER <= 1500 // MSVC 2008 or earlier

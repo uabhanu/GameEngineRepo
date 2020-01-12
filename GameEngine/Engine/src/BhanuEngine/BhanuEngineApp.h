@@ -10,10 +10,13 @@ namespace BhanuEngine
 	class ENGINE_API BhanuEngineApp
 	{
 		private:
+		    static BhanuEngineApp* s_Instance;
 		    bool m_IsRunning = true;
-			bool OnWindowClose(WindowCloseEvent& e);
 			LayerStack m_LayerStack;
 		    std::unique_ptr<Window> m_Window;
+
+		private:
+		    bool OnWindowClose(WindowCloseEvent& e);
 
 		public:
 			BhanuEngineApp();
@@ -23,6 +26,8 @@ namespace BhanuEngine
 			void PushLayer(Layer* layer);
 			void PushOverlay(Layer* layer);
 			void Run();
+			inline BhanuEngineApp& Get() { return *s_Instance; }
+			inline Window& GetWindow() { return *m_Window; } //This is so we can access the window via ImGUILayer.cpp
 	};
 
 	BhanuEngineApp* CreateApplication();
