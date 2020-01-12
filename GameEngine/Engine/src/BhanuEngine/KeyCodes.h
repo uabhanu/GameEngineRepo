@@ -1,5 +1,6 @@
 #pragma once
 
+//From glfw3.h
 #define ENGINE_KEY_SPACE              32
 #define ENGINE_KEY_APOSTROPHE         39  /* ' */
 #define ENGINE_KEY_COMMA              44  /* , */

@@ -10,12 +10,19 @@ class BhanuTestLayer : public BhanuEngine::Layer
 
 		void OnEvent(BhanuEngine::Event& event) override
 		{
-			ENGINE_CORE_TRACE("{0}" , event);
+			if(event.GetEventType() == BhanuEngine::EventType::KeyPressed)
+			{
+				BhanuEngine::KeyPressedEvent& e = (BhanuEngine::KeyPressedEvent&)event;
+				ENGINE_CORE_TRACE("Key Pressed : {0}" , (char)e.GetKeyCode());
+
+				if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_TAB))
+					ENGINE_CORE_WARN("Sir Bhanu, You pressed the Tab Key");
+			}
 		}
 
 		void OnUpdate() override
 		{
-			ENGINE_CORE_INFO("Bhanu's Test Layer Update");
+			
 		}
 };
 
