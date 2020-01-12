@@ -11,6 +11,7 @@ namespace BhanuEngine
 
 	BhanuEngineApp::BhanuEngineApp()
 	{
+		ENGINE_CORE_ASSERT(!s_Instance , "Sir Bhanu, Application already exists :)");
 		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
@@ -45,11 +46,13 @@ namespace BhanuEngine
 	void BhanuEngineApp::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void BhanuEngineApp::PushOverlay(Layer* layer)
 	{
 		m_LayerStack.PushOverlay(layer);
+		layer->OnAttach();
 	}
 
 	void BhanuEngineApp::Run()

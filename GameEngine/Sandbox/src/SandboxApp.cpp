@@ -25,6 +25,7 @@ class SandboxApp : public BhanuEngine::BhanuEngineApp
 		SandboxApp()
 		{
 			PushLayer(new BhanuTestLayer());
+			PushOverlay(new BhanuEngine::ImGUILayer());
 		}
 
 		~SandboxApp()

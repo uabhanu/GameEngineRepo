@@ -26,7 +26,7 @@ namespace BhanuEngine
 			void PushLayer(Layer* layer);
 			void PushOverlay(Layer* layer);
 			void Run();
-			inline BhanuEngineApp& Get() { return *s_Instance; }
+			inline static BhanuEngineApp& Get() { return *s_Instance; }
 			inline Window& GetWindow() { return *m_Window; } //This is so we can access the window via ImGUILayer.cpp
 	};
 
