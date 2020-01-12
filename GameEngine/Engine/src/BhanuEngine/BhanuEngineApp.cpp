@@ -1,5 +1,6 @@
 #include "EnginePCH.h"
 #include "BhanuEngineApp.h"
+#include "Input.h"
 
 #include <GLFW/glfw3.h> //Don't change this order
 
@@ -64,6 +65,9 @@ namespace BhanuEngine
 
 			for(Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			auto[x , y] = Input::GetMousePosition();
+			ENGINE_CORE_TRACE("{0} , {1}" , x , y);
 
 			m_Window->OnUpdate();
 		}

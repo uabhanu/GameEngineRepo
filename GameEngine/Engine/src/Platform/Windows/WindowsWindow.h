@@ -14,7 +14,11 @@ namespace BhanuEngine
 		    virtual void Init(const WindowProps& props);
 			virtual void Shutdown();
 		    
-			GLFWwindow* m_Window;
+			GLFWwindow* m_Window; //At the moment, there is no way of accessing this which can done in one of the following ways:
+			//1. Make m_Window public which is the worst way
+			//2. Make WindowsInput friend of this class which is a good way
+			//3. The best & most powerful way of doing this is using a public function in the API that exposes this variable.
+			   //The GetNativeWindow() of Window.h does this for us
 			
 			struct WindowData
 			{
@@ -37,6 +41,7 @@ namespace BhanuEngine
 			inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 			void SetVSync(bool enabled) override;
 			bool IsVSync() const override;
+			inline virtual void* GetNativeWindow() const { return m_Window; }
 	};
 }
 
