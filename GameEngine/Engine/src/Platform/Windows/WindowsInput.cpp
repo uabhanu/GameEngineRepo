@@ -1,12 +1,12 @@
-#include "BhanuEngine/BhanuEngineApp.h"
 #include "EnginePCH.h"
 #include "WindowsInput.h"
+#include "BhanuEngine/BhanuEngineApp.h" //Don't change this order
 
 #include <GLFW/glfw3.h>
 
 namespace BhanuEngine
 {
-	Input* Input::s_Instance = new WindowsInput();
+	Input* Input::s_Instance = new WindowsInput(); //We can do this as WindowsInput is just data
 
 	bool WindowsInput::IsKeyPressedImpl(int keycode)
 	{
