@@ -40,3 +40,6 @@
 bin-int
 bin
 *.ini
+*.dat
+*.yml
+*.html

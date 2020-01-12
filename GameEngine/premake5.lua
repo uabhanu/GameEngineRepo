@@ -12,13 +12,14 @@ workspace "GameEngine"
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 	
 	IncludeDir = {}
-	IncludeDir["Glad"] = "Engine/vendor/GLad/include"
-	IncludeDir["GLFW"] = "Engine/vendor/GLFW/include"
+	IncludeDir["glad"] = "Engine/vendor/glad/include"
+	IncludeDir["glfw"] = "Engine/vendor/glfw/include"
+	IncludeDir["glm"] = "Engine/vendor/glm"
 	IncludeDir["imgui"] = "Engine/vendor/imgui"
 
 	group "Dependencies"
-		include "Engine/vendor/Glad"
-		include "Engine/vendor/GLFW"
+		include "Engine/vendor/glad"
+		include "Engine/vendor/glfw"
 		include "Engine/vendor/imgui"
 	group ""
 	
@@ -34,22 +35,25 @@ workspace "GameEngine"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.Glad}",
-		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.glad}",
+		"%{IncludeDir.glfw}",
+		"%{IncludeDir.glm}",
 		"%{IncludeDir.imgui}"
 	}
 	
 	links
 	{
-		"Glad",
-		"GLFW",
+		"glad",
+		"glfw",
 		"imgui",
 		"opengl32.lib"
 	}
@@ -103,7 +107,8 @@ workspace "GameEngine"
 	includedirs
 	{
 		"Engine/vendor/spdlog/include",
-		"Engine/src"
+		"Engine/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links
