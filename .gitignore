@@ -39,3 +39,4 @@
 .vs
 bin-int
 bin
+*.ini
