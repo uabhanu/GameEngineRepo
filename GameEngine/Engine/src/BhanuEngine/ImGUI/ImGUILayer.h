@@ -15,24 +15,13 @@ namespace BhanuEngine
 		private:
 		    float m_Time = 0.0f;
 
-		private:
-		    bool OnKeyPressedEvent(KeyPressedEvent& e);
-			bool OnKeyReleasedEvent(KeyReleasedEvent& e);
-			bool OnKeyTypedEvent(KeyTypedEvent& e);
-		    bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& e);
-			bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& e);
-			bool OnMouseMovedEvent(MouseMovedEvent& e);
-			bool OnMouseScrolledEvent(MouseScrolledEvent& e);
-			bool OnWindowResizeEvent(WindowResizeEvent& e);
-
 		public:
 			ImGUILayer();
 			~ImGUILayer();
 
-			void OnAttach();
-			void OnDetach();
-			void OnEvent(Event& event);
-			void OnUpdate();
+			virtual void OnAttach() override;
+			virtual void OnDetach() override;
+			//virtual void OnImGUIRender() override;
 	};
 }
 
