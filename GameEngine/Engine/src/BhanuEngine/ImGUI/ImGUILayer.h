@@ -19,9 +19,11 @@ namespace BhanuEngine
 			ImGUILayer();
 			~ImGUILayer();
 
+			void Begin();
+			void End();
 			virtual void OnAttach() override;
 			virtual void OnDetach() override;
-			//virtual void OnImGUIRender() override;
+			virtual void OnImGUIRender() override;
 	};
 }
 

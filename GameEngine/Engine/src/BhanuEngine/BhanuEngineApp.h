@@ -2,6 +2,7 @@
 
 #include "BhanuEngine/Events/Event.h"
 #include "BhanuEngine/Events/AppEvent.h"
+#include "BhanuEngine/ImGUI/ImGUILayer.h"
 #include "BhanuEngine/LayerStack.h"
 #include "Window.h"
 
@@ -13,7 +14,8 @@ namespace BhanuEngine
 		    static BhanuEngineApp* s_Instance;
 		    bool m_IsRunning = true;
 			LayerStack m_LayerStack;
-		    std::unique_ptr<Window> m_Window;
+			std::unique_ptr<ImGUILayer> m_ImGUILayer;
+			std::unique_ptr<Window> m_Window;
 
 		private:
 		    bool OnWindowClose(WindowCloseEvent& e);

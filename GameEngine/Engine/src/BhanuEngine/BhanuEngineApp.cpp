@@ -10,10 +10,11 @@ namespace BhanuEngine
 
 	BhanuEngineApp* BhanuEngineApp::s_Instance = nullptr;
 
-	BhanuEngineApp::BhanuEngineApp()
+	BhanuEngineApp::BhanuEngineApp() //Revise the difference between unique_ptr & make_unique
 	{
 		ENGINE_CORE_ASSERT(!s_Instance , "Sir Bhanu, Application already exists :)");
 		s_Instance = this;
+		m_ImGUILayer = std::make_unique<ImGUILayer>();
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 	}
@@ -65,6 +66,11 @@ namespace BhanuEngine
 
 			for(Layer* layer : m_LayerStack)
 				layer->OnUpdate();
+
+			m_ImGUILayer->Begin();
+			for(Layer* layer : m_LayerStack)
+				layer->OnImGUIRender();
+			m_ImGUILayer->End();
 
 			m_Window->OnUpdate();
 		}

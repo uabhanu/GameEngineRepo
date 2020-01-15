@@ -19,61 +19,72 @@ namespace BhanuEngine
 	{
 	}
 
+	void ImGUILayer::Begin()
+	{
+		ImGui_ImplGlfw_NewFrame();
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui::NewFrame();
+	}
+
+	void ImGUILayer::End()
+	{
+		ImGuiIO& io = ImGui::GetIO();
+		BhanuEngineApp& engineApp = BhanuEngineApp::Get();
+		io.DisplaySize = ImVec2(engineApp.GetWindow().GetWidth() , engineApp.GetWindow().GetHeight());
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		}
+	}
+
 	void ImGUILayer::OnAttach()
 	{
+		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
-		ImGui::StyleColorsDark(); //Classic & Light Colours are other available options
 
 		ImGuiIO& io = ImGui::GetIO();
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
-		//Mouse
-		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
-		io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
 
-		//We will eventually use BhanuEngine Keycodes istead of the GLFW ones below
-		io.KeyMap[ImGuiKey_Tab] = GLFW_KEY_TAB;
-		io.KeyMap[ImGuiKey_LeftArrow] = GLFW_KEY_LEFT;
-		io.KeyMap[ImGuiKey_RightArrow] = GLFW_KEY_RIGHT;
-		io.KeyMap[ImGuiKey_UpArrow] = GLFW_KEY_UP;
-		io.KeyMap[ImGuiKey_DownArrow] = GLFW_KEY_DOWN;
-		io.KeyMap[ImGuiKey_PageUp] = GLFW_KEY_PAGE_UP;
-		io.KeyMap[ImGuiKey_PageDown] = GLFW_KEY_PAGE_DOWN;
-		io.KeyMap[ImGuiKey_Home] = GLFW_KEY_HOME;
-		io.KeyMap[ImGuiKey_End] = GLFW_KEY_END;
-		io.KeyMap[ImGuiKey_Insert] = GLFW_KEY_INSERT;
-		io.KeyMap[ImGuiKey_Delete] = GLFW_KEY_DELETE;
-		io.KeyMap[ImGuiKey_Backspace] = GLFW_KEY_BACKSPACE;
-		io.KeyMap[ImGuiKey_Space] = GLFW_KEY_SPACE;
-		io.KeyMap[ImGuiKey_Enter] = GLFW_KEY_ENTER;
-		io.KeyMap[ImGuiKey_Escape] = GLFW_KEY_ESCAPE;
-		io.KeyMap[ImGuiKey_A] = GLFW_KEY_A;
-		io.KeyMap[ImGuiKey_C] = GLFW_KEY_C;
-		io.KeyMap[ImGuiKey_V] = GLFW_KEY_V;
-		io.KeyMap[ImGuiKey_X] = GLFW_KEY_X;
-		io.KeyMap[ImGuiKey_Y] = GLFW_KEY_Y;
-		io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
+		ImGui::StyleColorsDark(); //Classic & Light Colours are other available options
 
-		ImGui_ImplOpenGL3_Init("#version 410");
+		ImGuiStyle& style = ImGui::GetStyle();
+
+		if(io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			style.WindowRounding = 0;
+			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+		}
+
+		BhanuEngineApp& engineApp = BhanuEngineApp::Get();
+		GLFWwindow* window = static_cast<GLFWwindow*>(engineApp.GetWindow().GetNativeWindow());
+
+		ImGui_ImplGlfw_InitForOpenGL(window , true);
+		ImGui_ImplOpenGL3_Init("#version 440"); //If any issue, try 410 instead
+
 	}
 
 	void ImGUILayer::OnDetach()
 	{
-
+		ImGui_ImplGlfw_Shutdown();
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui::DestroyContext();
 	}
 
-	/*void ImGUILayer::OnImGUIRender()
+	void ImGUILayer::OnImGUIRender()
 	{
-		ImGuiIO& io = ImGui::GetIO();
-		BhanuEngineApp& app = BhanuEngineApp::Get();
-		io.DisplaySize = ImVec2(app.GetWindow().GetWidth() , app.GetWindow().GetHeight());
-		float time = (float)glfwGetTime();
-		io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
-		m_Time = time;
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui::NewFrame();
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-	}*/
+
+	}
 }

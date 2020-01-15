@@ -17,6 +17,7 @@ namespace BhanuEngine
 			virtual void OnAttach() {}
 			virtual void OnDetach() {}
 			virtual void OnEvent(Event& event) {}
+			virtual void OnImGUIRender() {}
 			virtual void OnUpdate() {}
 
 			inline const std::string& GetName() const { return m_DebugName; }
