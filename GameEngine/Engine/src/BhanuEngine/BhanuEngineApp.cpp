@@ -14,7 +14,7 @@ namespace BhanuEngine
 	{
 		ENGINE_CORE_ASSERT(!s_Instance , "Sir Bhanu, Application already exists :)");
 		s_Instance = this;
-		m_ImGUILayer = std::make_unique<ImGUILayer>();
+		m_ImGUILayer = new ImGUILayer();
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 	}

@@ -2,7 +2,8 @@
 
 //#include <imgui.h> //Uncomment this if needed
 
-#include "BhanuEngine/BhanuEngineApp.h"
+#include "BhanuEngine/Events/AppEvent.h"
+#include "BhanuEngine/Events/Event.h"
 #include "BhanuEngine/Events/KeyEvent.h"
 #include "BhanuEngine/Events/MouseEvent.h"
 #include "BhanuEngine/Layer.h"

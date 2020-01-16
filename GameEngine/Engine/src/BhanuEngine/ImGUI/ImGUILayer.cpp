@@ -8,6 +8,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h> //Don't change this order
 
+#include "BhanuEngine/BhanuEngineApp.h" //Don't change this order
+
 namespace BhanuEngine
 {
 	ImGUILayer::ImGUILayer()
@@ -51,12 +53,11 @@ namespace BhanuEngine
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-
-		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
+		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
+		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
 
 		ImGui::StyleColorsDark(); //Classic & Light Colours are other available options
 
