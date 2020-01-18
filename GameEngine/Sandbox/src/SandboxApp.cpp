@@ -22,7 +22,8 @@ class BhanuTestLayer : public BhanuEngine::Layer
 
 		void OnUpdate() override
 		{
-			
+			if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_TAB))
+				ENGINE_CORE_INFO("Sir Bhanu, you have pressed a Tab Key :)");
 		}
 };
 

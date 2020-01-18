@@ -23,8 +23,8 @@ namespace BhanuEngine
 
 	void ImGUILayer::Begin()
 	{
-		ImGui_ImplGlfw_NewFrame();
 		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 
@@ -86,6 +86,6 @@ namespace BhanuEngine
 
 	void ImGUILayer::OnImGUIRender()
 	{
-
+		ImGui::ShowDemoWindow(show);
 	}
 }
