@@ -108,12 +108,14 @@ workspace "GameEngine"
 	{
 		"Engine/vendor/spdlog/include",
 		"Engine/src",
+		"Engine/vendor",
 		"%{IncludeDir.glm}"
 	}
 
 	links
 	{
-		"Engine"
+		"Engine",
+		"imgui"
 	}
 
 	filter "system:windows"

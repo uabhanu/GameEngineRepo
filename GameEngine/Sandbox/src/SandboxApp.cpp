@@ -1,5 +1,7 @@
 #include "BhanuEngine.h"
 
+#include <imgui/imgui.h>
+
 class BhanuTestLayer : public BhanuEngine::Layer
 {
 	public:
@@ -20,9 +22,11 @@ class BhanuTestLayer : public BhanuEngine::Layer
 			}
 		}
 
-		void OnUpdate() override
+		void OnImGUIRender() override
 		{
-			
+			ImGui::Begin("ImGUI Test");
+			ImGui::Text("Hello World to ImGUI");
+			ImGui::End();
 		}
 };
 
