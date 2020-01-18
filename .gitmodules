@@ -4,3 +4,5 @@
 [submodule "GameEngine/Engine/vendor/imgui"]
 	path = GameEngine/Engine/vendor/imgui
 	url = https://github.com/thecherno/imgui
+[submodule "$imgui"]
+	update = merge
