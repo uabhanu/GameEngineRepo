@@ -86,6 +86,7 @@ namespace BhanuEngine
 
 	void ImGUILayer::OnImGUIRender()
 	{
-		ImGui::ShowDemoWindow(show);
+		static bool show = true;
+		ImGui::ShowDemoWindow(&show);
 	}
 }

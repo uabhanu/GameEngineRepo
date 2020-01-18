@@ -108,6 +108,7 @@ workspace "GameEngine"
 	{
 		"Engine/vendor/spdlog/include",
 		"Engine/src",
+		"Engine/vendor",
 		"%{IncludeDir.glm}"
 	}
 

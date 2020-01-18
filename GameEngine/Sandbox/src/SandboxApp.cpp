@@ -1,5 +1,7 @@
 #include "BhanuEngine.h"
 
+#include <imgui/imgui.h>
+
 class BhanuTestLayer : public BhanuEngine::Layer
 {
 	public:
@@ -18,6 +20,13 @@ class BhanuTestLayer : public BhanuEngine::Layer
 				if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_TAB))
 					ENGINE_CORE_WARN("Sir Bhanu, You pressed the Tab Key");
 			}
+		}
+
+		void OnImGUIRender() override
+		{
+			ImGui::Begin("Test");
+			ImGui::Text("Hello World");
+			ImGui::End();
 		}
 
 		void OnUpdate() override
