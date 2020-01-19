@@ -25,8 +25,9 @@ workspace "GameEngine"
 	
 	project "Engine"
 		location "Engine"
-		kind "SharedLib"
+		kind "StaticLib"
 		language "C++"
+		cppdialect "C++17"
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 		pchheader "EnginePCH.h"
@@ -38,6 +39,11 @@ workspace "GameEngine"
 		"%{prj.name}/src/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl"
+	}
+	
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	includedirs
@@ -59,8 +65,6 @@ workspace "GameEngine"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 	defines
@@ -70,30 +74,27 @@ workspace "GameEngine"
 		--"GLFW_INCLUDE_NONE" --This is causing errors in your case so leave it for now
 	}
 
-	postbuildcommands
-	{
-		("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
-	}
-
 	filter "configurations:Debug"
 		defines "ENGINE_DEBUG"
-		staticruntime "off"
+		staticruntime "On"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "ENGINE_RELEASE"
-		staticruntime "off"
+		staticruntime "On"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "ENGINE_DIST"--[ Distribution]
-		staticruntime "off"
+		staticruntime "On"
 		optimize "On"
 
 	project "Sandbox"
 		location "Sandbox"
 		kind "ConsoleApp"
 		language "C++"
+		cppdialect "C++17"
+		staticruntime "On"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -119,7 +120,6 @@ workspace "GameEngine"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 	defines
@@ -129,15 +129,15 @@ workspace "GameEngine"
 
 	filter "configurations:Debug"
 		defines "ENGINE_DEBUG"
-		staticruntime "off"
+		staticruntime "On"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "ENGINE_RELEASE"
-		staticruntime "off"
+		staticruntime "On"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "ENGINE_DIST" --[ Distribution]
-		staticruntime "off"
+		staticruntime "On"
 		optimize "On"

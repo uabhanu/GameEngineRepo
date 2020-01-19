@@ -32,7 +32,7 @@ namespace BhanuEngine
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		BhanuEngineApp& engineApp = BhanuEngineApp::Get();
-		io.DisplaySize = ImVec2(engineApp.GetWindow().GetWidth() , engineApp.GetWindow().GetHeight());
+		io.DisplaySize = ImVec2((float)engineApp.GetWindow().GetWidth() , (float)engineApp.GetWindow().GetHeight());
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
