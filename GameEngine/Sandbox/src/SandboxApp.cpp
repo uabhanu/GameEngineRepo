@@ -24,9 +24,9 @@ class BhanuTestLayer : public BhanuEngine::Layer
 
 		void OnImGUIRender() override
 		{
-			ImGui::Begin("ImGUI Test");
-			ImGui::Text("Hello World to ImGUI");
-			ImGui::End();
+			//ImGui::Begin("ImGUI Test");
+			//ImGui::Text("Hello World to ImGUI");
+			//ImGui::End();
 		}
 };
 

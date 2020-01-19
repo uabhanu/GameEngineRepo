@@ -17,6 +17,7 @@ namespace BhanuEngine
 		m_ImGUILayer = new ImGUILayer();
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		PushOverlay(m_ImGUILayer);
 	}
 		
 	BhanuEngineApp::~BhanuEngineApp()
