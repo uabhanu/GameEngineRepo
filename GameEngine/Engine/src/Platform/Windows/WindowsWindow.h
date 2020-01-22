@@ -5,6 +5,7 @@
 
 #include "BhanuEngine/Log.h"
 #include "BhanuEngine/Window.h"
+#include "BhanuEngine/Renderer/GraphicsContext.h"
 
 namespace BhanuEngine
 {
@@ -19,6 +20,7 @@ namespace BhanuEngine
 			//2. Make WindowsInput friend of this class which is a good way
 			//3. The best & most powerful way of doing this is using a public function in the API that exposes this variable.
 			   //The GetNativeWindow() of Window.h does this for us
+			GraphicsContext* m_GraphicsContext;
 			
 			struct WindowData
 			{

@@ -3,6 +3,7 @@
 #include "BhanuEngine/Events/AppEvent.h"
 #include "BhanuEngine/Events/KeyEvent.h"
 #include "BhanuEngine/Events/MouseEvent.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace BhanuEngine
 {
@@ -46,9 +47,8 @@ namespace BhanuEngine
 		}
 
 		m_Window = glfwCreateWindow((int)props.Width , (int)props.Height , m_Data.Title.c_str() , nullptr , nullptr);
-		glfwMakeContextCurrent(m_Window);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		ENGINE_CORE_ASSERT(status , "Sir Bhanu, Failed to initialise Glad :(");
+		m_GraphicsContext = new OpenGLContext(m_Window);
+		m_GraphicsContext->Init();
 		glfwSetWindowUserPointer(m_Window , &m_Data);
 		SetVSync(true);
 
@@ -151,7 +151,7 @@ namespace BhanuEngine
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_GraphicsContext->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
