@@ -2,7 +2,7 @@
 
 #include "BhanuEngine/Renderer/GraphicsContext.h"
 
-class GLFWwindow;
+struct GLFWwindow;
 
 namespace BhanuEngine
 {

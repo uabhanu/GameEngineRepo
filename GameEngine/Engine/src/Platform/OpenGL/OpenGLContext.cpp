@@ -1,8 +1,9 @@
 #include "EnginePCH.h"
 #include "OpenGLContext.h"
 
-#include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <GL/GL.h>
 
 namespace BhanuEngine
 {
@@ -21,8 +22,6 @@ namespace BhanuEngine
 
 	void OpenGLContext::SwapBuffers()
 	{
-		glBegin(GL_TRIANGLES);
-		glEnd();
 		glfwSwapBuffers(m_WindowHandle);
 	}
 }
