@@ -14,6 +14,7 @@ namespace BhanuEngine
 			ImGUILayer* m_ImGUILayer;
 			LayerStack m_LayerStack;
 			std::unique_ptr<Window> m_Window;
+			unsigned int m_IndexBuffer , m_VertexArray , m_VertexBuffer;
 
 		private:
 		    bool OnWindowClose(WindowCloseEvent& e);
