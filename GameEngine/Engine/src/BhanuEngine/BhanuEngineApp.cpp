@@ -18,18 +18,19 @@ namespace BhanuEngine
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 		PushOverlay(m_ImGUILayer);
-		
-		glGenBuffers(1 , &m_IndexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER , m_IndexBuffer);
-		
-		unsigned int indices[3] = {0 , 1 , 2};
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER , sizeof(indices) , indices , GL_STATIC_DRAW);
 
 		glGenVertexArrays(1 , &m_VertexArray);
 		glBindVertexArray(m_VertexArray);
 		
 		glGenBuffers(1 , &m_VertexBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER , m_VertexBuffer);
+
+		//These should come after VertexArray Binding so don't change the order
+		glGenBuffers(1 , &m_IndexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER , m_IndexBuffer);
+		
+		unsigned int indices[3] = {0 , 1 , 2};
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER , sizeof(indices) , indices , GL_STATIC_DRAW);
 
 		//No Triangle probably because your laptop has no modern graphics card
 		//Test this on your desktop before changing these values
