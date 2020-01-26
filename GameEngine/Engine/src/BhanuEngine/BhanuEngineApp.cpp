@@ -32,8 +32,8 @@ namespace BhanuEngine
 		unsigned int indices[3] = {0 , 1 , 2};
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER , sizeof(indices) , indices , GL_STATIC_DRAW);
 
-		//No Triangle probably because your laptop has no modern graphics card
-		//Test this on your desktop before changing these values
+		//No Triangle because of an exception thrown by OpenGL on Desktop but that wasn't thrown on the laptop
+		//To reproduce the no triangle/exception, just put the IndexBuffer code beforeVertexArray
 		float vertices[3 * 3] =
 		{
 			-0.5f , -0.5f , 0.0f,
