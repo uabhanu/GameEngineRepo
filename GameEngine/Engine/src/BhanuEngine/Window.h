@@ -13,7 +13,7 @@ namespace BhanuEngine
 		unsigned int Height;
 
 		//Previous Width & Height were 1280 & 720 respectively
-		WindowProps(const std::string& title = "Bhanu Engine" , unsigned int width = 320 , unsigned int height = 180)
+		WindowProps(const std::string& title = "Bhanu Engine" , unsigned int width = 1280 , unsigned int height = 720)
 			: Title(title) , Width(width) , Height(height)
 		{
 		}

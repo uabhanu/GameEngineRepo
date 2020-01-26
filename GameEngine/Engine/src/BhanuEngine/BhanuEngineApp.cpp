@@ -33,7 +33,7 @@ namespace BhanuEngine
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER , sizeof(indices) , indices , GL_STATIC_DRAW);
 
 		//No Triangle because of an exception thrown by OpenGL on Desktop but that wasn't thrown on the laptop
-		//To reproduce the no triangle/exception, just put the IndexBuffer code beforeVertexArray
+		//To reproduce the no triangle/exception, just put the IndexBuffer code before VertexArray
 		float vertices[3 * 3] =
 		{
 			-0.5f , -0.5f , 0.0f,

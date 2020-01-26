@@ -73,7 +73,7 @@ namespace BhanuEngine
 		GLFWwindow* window = static_cast<GLFWwindow*>(engineApp.GetWindow().GetNativeWindow());
 
 		ImGui_ImplGlfw_InitForOpenGL(window , true);
-		ImGui_ImplOpenGL3_Init("#version 440"); //If any issue, try 410 instead
+		ImGui_ImplOpenGL3_Init("#version 440");
 
 	}
 
