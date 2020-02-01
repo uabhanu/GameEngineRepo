@@ -74,31 +74,33 @@ namespace BhanuEngine
 
 		// Vertex and fragment shaders are successfully compiled.
 		// Now time to link them together into a program.
-		// Get a program object.
-		GLuint m_RendererID = glCreateProgram();
+		//Cherno said it's not needed to replace program with m_RendererID so did m_Renderer = glCreateProgram but this is
+		//the only way, Cherno said this is to avoid replacing program with m_RendererID in every line in a lazy sense 
+		m_RendererID = glCreateProgram();
+		GLuint program = m_RendererID;
 
 		// Attach our shaders to our program
-		glAttachShader(m_RendererID, vertexShader);
-		glAttachShader(m_RendererID, fragmentShader);
+		glAttachShader(program, vertexShader);
+		glAttachShader(program, fragmentShader);
 
 		// Link our program
-		glLinkProgram(m_RendererID);
+		glLinkProgram(program);
 
 		// Note the different functions here: glGetProgram* instead of glGetShader*.
 		GLint isLinked = 0;
-		glGetProgramiv(m_RendererID, GL_LINK_STATUS, (int *)&isLinked);
+		glGetProgramiv(program, GL_LINK_STATUS, (int *)&isLinked);
 
 		if (isLinked == GL_FALSE)
 		{
 			GLint maxLength = 0;
-			glGetProgramiv(m_RendererID, GL_INFO_LOG_LENGTH, &maxLength);
+			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 
 			// The maxLength includes the NULL character
 			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(m_RendererID, maxLength, &maxLength, &infoLog[0]);
+			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
 	
 			// We don't need the program anymore.
-			glDeleteProgram(m_RendererID);
+			glDeleteProgram(program);
 			// Don't leak shaders either.
 			glDeleteShader(vertexShader);
 			glDeleteShader(fragmentShader);
@@ -109,8 +111,8 @@ namespace BhanuEngine
 		}
 
 		// Always detach shaders after a successful link.
-		glDetachShader(m_RendererID, vertexShader);
-		glDetachShader(m_RendererID, fragmentShader);
+		glDetachShader(program, vertexShader);
+		glDetachShader(program, fragmentShader);
 	}
 
 	Shader::~Shader()
