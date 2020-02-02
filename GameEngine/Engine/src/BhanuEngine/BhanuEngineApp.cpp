@@ -22,9 +22,6 @@ namespace BhanuEngine
 		glGenVertexArrays(1 , &m_VertexArray);
 		glBindVertexArray(m_VertexArray);
 		
-		glGenBuffers(1 , &m_VertexBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER , m_VertexBuffer);
-
 		//No Triangle because of an exception thrown by OpenGL on Desktop but that wasn't thrown on the laptop
 		//To reproduce the no triangle/exception, just put the IndexBuffer code before VertexArray
 		float vertices[3 * 3] =
@@ -34,17 +31,14 @@ namespace BhanuEngine
 			 0.0f ,  0.5f , 0.0f
 		};
 
-		glBufferData(GL_ARRAY_BUFFER , sizeof(vertices) , vertices , GL_STATIC_DRAW);
+		m_VertexBuffer.reset(VertexBuffer::Create(vertices , sizeof(vertices)));
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0 , 3 , GL_FLOAT , GL_FALSE , 3 * sizeof(float) , nullptr);
 
 		//These should come after VertexArray Binding so don't change the order
-		glGenBuffers(1 , &m_IndexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER , m_IndexBuffer);
-		
-		unsigned int indices[3] = {0 , 1 , 2};
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER , sizeof(indices) , indices , GL_STATIC_DRAW);
+		uint32_t indices[3] = {0 , 1 , 2};
+		m_IndexBuffer.reset(IndexBuffer::Create(indices , sizeof(indices) / sizeof(uint32_t)));
 
 		//This way you don't have to write "\n" for every line and wonder what 'R' means :)
 		//'a' in a_Position represents Attribute
@@ -130,7 +124,7 @@ namespace BhanuEngine
 			//In OpenGL this doesn't matter as long as you bind before the draw call but in the other APIs, this must be the first step like it's here now
 			m_Shader->Bind();
 			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES , 3 , GL_UNSIGNED_INT , nullptr);
+			glDrawElements(GL_TRIANGLES , m_IndexBuffer->GetCount() , GL_UNSIGNED_INT , nullptr);
 
 			for(Layer* layer : m_LayerStack)
 				layer->OnUpdate();
