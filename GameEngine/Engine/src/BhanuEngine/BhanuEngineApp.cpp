@@ -34,6 +34,9 @@ namespace BhanuEngine
 			 0.0f ,  0.5f , 0.0f
 		};
 
+		/*VertexBuffer buffer = VertexBuffer::Create(sizeof(vertices) , vertices);
+		buffer.Bind();*/
+
 		glBufferData(GL_ARRAY_BUFFER , sizeof(vertices) , vertices , GL_STATIC_DRAW);
 
 		glEnableVertexAttribArray(0);
