@@ -19,7 +19,17 @@ namespace BhanuEngine
 
 	class OpenGLIndexBuffer : public IndexBuffer
 	{
+		private:
+		    uint32_t m_Count , m_RendererID;
+		    
+		public:
+		    OpenGLIndexBuffer(uint32_t* indices , uint32_t count);
+			virtual ~OpenGLIndexBuffer();
+		    
+			virtual void Bind() const;
+		    virtual void Unbind() const;
 
+			virtual uint32_t GetCount() const { return m_Count; }
 	};
 }
 

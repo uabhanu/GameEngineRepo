@@ -2,6 +2,7 @@
 
 #include "BhanuEngine/ImGUI/ImGUILayer.h"
 #include "BhanuEngine/LayerStack.h"
+#include "Renderer/Buffer.h"
 #include "Renderer/Shader.h"
 #include "Window.h"
 
@@ -14,9 +15,11 @@ namespace BhanuEngine
 		    bool m_IsRunning = true;
 			ImGUILayer* m_ImGUILayer;
 			LayerStack m_LayerStack;
+			std::unique_ptr<IndexBuffer> m_IndexBuffer;
 			std::unique_ptr<Shader> m_Shader;
+			std::unique_ptr<VertexBuffer> m_VertexBuffer;
 			std::unique_ptr<Window> m_Window;
-			unsigned int m_IndexBuffer , m_VertexArray , m_VertexBuffer;
+			unsigned int m_VertexArray;
 
 		private:
 		    bool OnWindowClose(WindowCloseEvent& e);
