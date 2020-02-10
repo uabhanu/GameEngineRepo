@@ -45,22 +45,28 @@ namespace BhanuEngine
 
 		//No Triangle because of an exception thrown by OpenGL on Desktop but that wasn't thrown on the laptop
 		//To reproduce the no triangle/exception, just put the IndexBuffer code before VertexArray
-		float vertices[3 * 3] =
+		float vertices[3 * 7] =
 		{
-			-0.5f , -0.5f , 0.0f,
-			 0.5f , -0.5f , 0.0f,
-			 0.0f ,  0.5f , 0.0f
+			-0.5f , -0.5f , 0.0f, 1.0, 0.0, 0.0, 1.0,
+			 0.5f , -0.5f , 0.0f, 0.0, 1.0, 0.0, 1.0,
+			 0.0f ,  0.5f , 0.0f, 0.0, 0.0, 1.0, 1.0
 		};
 
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices , sizeof(vertices)));
 
-		BufferLayout bufferLayout =
 		{
-			{ShaderDataType::FLOAT3 , "a_Position"}
-		};
+			BufferLayout bufferLayout =
+			{
+				{ShaderDataType::FLOAT3 , "a_Position"},
+				{ShaderDataType::FLOAT4 , "a_Color"}
+			};
+
+			m_VertexBuffer->SetLayout(bufferLayout);
+		}
 
 		//For fun, when you are free, try using regular for loop instead
 		uint32_t index = 0;
+		const auto& bufferLayout = m_VertexBuffer->GetLayout();
 		for(const auto& element : bufferLayout)
 		{
 			glEnableVertexAttribArray(index);
@@ -80,12 +86,15 @@ namespace BhanuEngine
 			#version 440 core
 
 			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Color;
 
 			out vec3 v_Position;
+			out vec4 v_Color;
 
 			void main()
 			{
 				v_Position = a_Position;
+				v_Color = a_Color;
 				gl_Position = vec4(a_Position , 1.0);	
 			}
 		)";
@@ -99,10 +108,12 @@ namespace BhanuEngine
 			layout(location = 0) out vec4 color;
 
 			in vec3 v_Position;
+			in vec4 v_Color;
 
 			void main()
 			{
 				color = vec4(v_Position * 0.5 + 0.5 , 1.0);
+				color = v_Color;
 			}
 		)";
 

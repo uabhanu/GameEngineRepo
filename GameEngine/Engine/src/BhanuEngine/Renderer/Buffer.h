@@ -103,6 +103,8 @@ namespace BhanuEngine
 
 			std::vector<BufferElements>::iterator begin() { return m_Elements.begin(); } //Phew
 			std::vector<BufferElements>::iterator end() { return m_Elements.end(); } //Phew
+			std::vector<BufferElements>::const_iterator begin() const { return m_Elements.begin(); } //Phew
+			std::vector<BufferElements>::const_iterator end() const { return m_Elements.end(); } //Phew
 	};
 
 	class VertexBuffer
