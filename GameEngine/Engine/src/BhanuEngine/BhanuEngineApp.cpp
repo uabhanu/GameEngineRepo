@@ -10,6 +10,27 @@ namespace BhanuEngine
 
 	BhanuEngineApp* BhanuEngineApp::s_Instance = nullptr;
 
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+	{
+		switch(type)
+		{
+			case BhanuEngine::ShaderDataType::BOOL:       return GL_BOOL;
+			case BhanuEngine::ShaderDataType::FLOAT:      return GL_FLOAT;
+			case BhanuEngine::ShaderDataType::FLOAT2:	  return GL_FLOAT;
+			case BhanuEngine::ShaderDataType::FLOAT3:	  return GL_FLOAT;
+			case BhanuEngine::ShaderDataType::FLOAT4:	  return GL_FLOAT;
+			case BhanuEngine::ShaderDataType::INT:        return GL_INT;
+			case BhanuEngine::ShaderDataType::INT2:       return GL_INT;
+			case BhanuEngine::ShaderDataType::INT3:		  return GL_INT;
+			case BhanuEngine::ShaderDataType::INT4:		  return GL_INT;
+			case BhanuEngine::ShaderDataType::MAT3:       return GL_FLOAT;
+			case BhanuEngine::ShaderDataType::MAT4:		  return GL_FLOAT;
+		}
+
+		ENGINE_CORE_ASSERT(false , "Sir Bhanu, Unknown Shader Data Type :(");
+		return 0;
+	}
+
 	BhanuEngineApp::BhanuEngineApp() //Revise the difference between unique_ptr & make_unique
 	{
 		ENGINE_CORE_ASSERT(!s_Instance , "Sir Bhanu, Application already exists :)");
@@ -38,8 +59,14 @@ namespace BhanuEngine
 			{ShaderDataType::FLOAT3 , "a_Position"}
 		};
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0 , 3 , GL_FLOAT , GL_FALSE , 3 * sizeof(float) , nullptr);
+		//For fun, when you are free, try using regular for loop instead
+		uint32_t index = 0;
+		for(const auto& element : bufferLayout)
+		{
+			glEnableVertexAttribArray(index);
+			glVertexAttribPointer(index , element.GetComponentsCount() , ShaderDataTypeToOpenGLBaseType(element.Type) , element.Normalised ? GL_TRUE : GL_FALSE , bufferLayout.GetStride() , (const void*)element.Offset);
+			index++;
+		}
 
 		//These should come after VertexArray Binding so don't change the order	
 		uint32_t indices[3] = {0 , 1 , 2};
