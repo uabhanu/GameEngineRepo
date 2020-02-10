@@ -23,8 +23,8 @@ namespace BhanuEngine
 		glBindVertexArray(m_VertexArray);
 		
 		//Delete these permanently after this chapter finishes and no errors/exceptions
-		/*glGenBuffers(1 , &m_VertexBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER , m_VertexBuffer);*/
+		glGenBuffers(1 , &m_VertexBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER , m_VertexBuffer);
 
 		//No Triangle because of an exception thrown by OpenGL on Desktop but that wasn't thrown on the laptop
 		//To reproduce the no triangle/exception, just put the IndexBuffer code before VertexArray
@@ -35,8 +35,7 @@ namespace BhanuEngine
 			 0.0f ,  0.5f , 0.0f
 		};
 
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices , sizeof(vertices)));
-
+		//m_VertexBuffer.reset(VertexBuffer::Create(vertices , sizeof(vertices)));
 		glBufferData(GL_ARRAY_BUFFER , sizeof(vertices) , vertices , GL_STATIC_DRAW);
 
 		glEnableVertexAttribArray(0);
@@ -44,12 +43,12 @@ namespace BhanuEngine
 
 		//These should come after VertexArray Binding so don't change the order
 		//Delete these permanently after this chapter and if no errors/exceptions
-		/*glGenBuffers(1 , &m_IndexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER , m_IndexBuffer);*/
+		glGenBuffers(1 , &m_IndexBuffer);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER , m_IndexBuffer);
 		
 		uint32_t indices[3] = {0 , 1 , 2};
-		m_IndexBuffer.reset(IndexBuffer::Create(indices , sizeof(indices) / sizeof(uint32_t)));
-		//glBufferData(GL_ELEMENT_ARRAY_BUFFER , sizeof(indices) , indices , GL_STATIC_DRAW); //Delete this permanently after this chapter and if no errors/exceptions
+		//m_IndexBuffer.reset(IndexBuffer::Create(indices , sizeof(indices) / sizeof(uint32_t)));
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER , sizeof(indices) , indices , GL_STATIC_DRAW); //Delete this permanently after this chapter and if no errors/exceptions
 
 		//This way you don't have to write "\n" for every line and wonder what 'R' means :)
 		//'a' in a_Position represents Attribute

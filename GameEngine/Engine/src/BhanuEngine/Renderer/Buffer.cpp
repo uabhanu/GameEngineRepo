@@ -23,8 +23,21 @@ namespace BhanuEngine
 		return nullptr;
 	}
 
-	IndexBuffer* IndexBuffer::Create(uint32_t* indices , uint32_t size)
+	IndexBuffer* IndexBuffer::Create(uint32_t* indices , uint32_t count)
 	{
+		switch(Renderer::GetCurrentAPI())
+		{
+			case RendererAPI::NONE:
+				return nullptr;
+				ENGINE_CORE_ASSERT(false , "Sir Bhanu, Unable to get the current API :(");
+			break;
+
+			case RendererAPI::OPENGL:
+				return new OpenGLIndexBuffer(indices , count);
+			break;
+		}
+		
+		ENGINE_CORE_ASSERT(false , "Sir Bhanu, Unknown API :(");
 		return nullptr;
 	}
 }
