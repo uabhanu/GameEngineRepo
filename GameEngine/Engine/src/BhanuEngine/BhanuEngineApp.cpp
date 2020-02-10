@@ -21,10 +21,6 @@ namespace BhanuEngine
 
 		glGenVertexArrays(1 , &m_VertexArray);
 		glBindVertexArray(m_VertexArray);
-		
-		//Delete these permanently after this chapter finishes and no errors/exceptions
-		glGenBuffers(1 , &m_VertexBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER , m_VertexBuffer);
 
 		//No Triangle because of an exception thrown by OpenGL on Desktop but that wasn't thrown on the laptop
 		//To reproduce the no triangle/exception, just put the IndexBuffer code before VertexArray
@@ -35,19 +31,15 @@ namespace BhanuEngine
 			 0.0f ,  0.5f , 0.0f
 		};
 
-		//m_VertexBuffer.reset(VertexBuffer::Create(vertices , sizeof(vertices)));
-		glBufferData(GL_ARRAY_BUFFER , sizeof(vertices) , vertices , GL_STATIC_DRAW);
+		m_VertexBuffer.reset(VertexBuffer::Create(vertices , sizeof(vertices)));
+		glBufferData(GL_ARRAY_BUFFER , sizeof(vertices) , vertices , GL_STATIC_DRAW); //Delete this permanently after this chapter and if no errors/exceptions
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0 , 3 , GL_FLOAT , GL_FALSE , 3 * sizeof(float) , nullptr);
 
-		//These should come after VertexArray Binding so don't change the order
-		//Delete these permanently after this chapter and if no errors/exceptions
-		glGenBuffers(1 , &m_IndexBuffer);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER , m_IndexBuffer);
-		
+		//These should come after VertexArray Binding so don't change the order	
 		uint32_t indices[3] = {0 , 1 , 2};
-		//m_IndexBuffer.reset(IndexBuffer::Create(indices , sizeof(indices) / sizeof(uint32_t)));
+		m_IndexBuffer.reset(IndexBuffer::Create(indices , sizeof(indices) / sizeof(uint32_t)));
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER , sizeof(indices) , indices , GL_STATIC_DRAW); //Delete this permanently after this chapter and if no errors/exceptions
 
 		//This way you don't have to write "\n" for every line and wonder what 'R' means :)
@@ -134,7 +126,7 @@ namespace BhanuEngine
 			//In OpenGL this doesn't matter as long as you bind before the draw call but in the other APIs, this must be the first step like it's here now
 			m_Shader->Bind();
 			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES , 3 , GL_UNSIGNED_INT , nullptr);
+			glDrawElements(GL_TRIANGLES , m_IndexBuffer->GetCount() , GL_UNSIGNED_INT , nullptr);
 
 			for(Layer* layer : m_LayerStack)
 				layer->OnUpdate();

@@ -16,12 +16,12 @@ namespace BhanuEngine
 			ImGUILayer* m_ImGUILayer;
 			LayerStack m_LayerStack;
 			std::unique_ptr<Shader> m_Shader;
-			/*std::unique_ptr<IndexBuffer> m_IndexBuffer;
-			std::unique_ptr<VertexBuffer> m_VertexBuffer;*/
+			std::unique_ptr<IndexBuffer> m_IndexBuffer;
+			std::unique_ptr<VertexBuffer> m_VertexBuffer;
 			std::unique_ptr<Window> m_Window;
-			unsigned int m_IndexBuffer; //Delete this permanently after this chapter finishes and no errors/exceptions
+			//unsigned int m_IndexBuffer; //Delete this permanently after this chapter finishes and no errors/exceptions
 			unsigned int m_VertexArray;
-			unsigned int m_VertexBuffer; //Delete this permanently after this chapter finishes and no errors/exceptions
+			//unsigned int m_VertexBuffer; //Delete this permanently after this chapter finishes and no errors/exceptions
 
 		private:
 		    bool OnWindowClose(WindowCloseEvent& e);

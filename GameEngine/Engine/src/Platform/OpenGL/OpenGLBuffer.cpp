@@ -9,9 +9,9 @@ namespace BhanuEngine
 	****************************VERTEX BUFFER******************************
 	***********************************************************************/
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices , uint32_t size)
-		: m_RendererID(0)
 	{
-		glCreateBuffers(1 , &m_RendererID);
+		//glCreateBuffers(1 , &m_RendererID); //For some reason this is not working so Sri suggested glGenBuffers as shown below which worked
+		glGenBuffers(1 , &m_RendererID);
 		glBindBuffer(GL_ARRAY_BUFFER , m_RendererID);
 		glBufferData(GL_ARRAY_BUFFER , size , vertices , GL_STATIC_DRAW);
 	}
@@ -37,8 +37,9 @@ namespace BhanuEngine
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices , uint32_t count)
 		: m_Count(count)
 	{
-		glCreateBuffers(1 , &m_RendererID);
-		glBindBuffer(GL_ARRAY_BUFFER , m_RendererID);
+		//glCreateBuffers(1 , &m_RendererID); //For some reason this is not working so Sri suggested glGenBuffers as shown below which worked
+		glGenBuffers(1 , &m_RendererID);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER , m_RendererID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER , count * sizeof(uint32_t) , indices , GL_STATIC_DRAW);
 	}
 
@@ -49,11 +50,11 @@ namespace BhanuEngine
 		    
 	void OpenGLIndexBuffer::Bind() const
 	{
-		glBindBuffer(GL_ARRAY_BUFFER , m_RendererID);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER , m_RendererID);
 	}
 
 	void OpenGLIndexBuffer::Unbind() const
 	{
-		glBindBuffer(GL_ARRAY_BUFFER , 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER , 0);
 	}
 }
