@@ -32,7 +32,11 @@ namespace BhanuEngine
 		};
 
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices , sizeof(vertices)));
-		glBufferData(GL_ARRAY_BUFFER , sizeof(vertices) , vertices , GL_STATIC_DRAW); //Delete this permanently after this chapter and if no errors/exceptions
+
+		BufferLayout bufferLayout =
+		{
+			{ShaderDataType::FLOAT3 , "a_Position"}
+		};
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0 , 3 , GL_FLOAT , GL_FALSE , 3 * sizeof(float) , nullptr);
@@ -40,7 +44,6 @@ namespace BhanuEngine
 		//These should come after VertexArray Binding so don't change the order	
 		uint32_t indices[3] = {0 , 1 , 2};
 		m_IndexBuffer.reset(IndexBuffer::Create(indices , sizeof(indices) / sizeof(uint32_t)));
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER , sizeof(indices) , indices , GL_STATIC_DRAW); //Delete this permanently after this chapter and if no errors/exceptions
 
 		//This way you don't have to write "\n" for every line and wonder what 'R' means :)
 		//'a' in a_Position represents Attribute
