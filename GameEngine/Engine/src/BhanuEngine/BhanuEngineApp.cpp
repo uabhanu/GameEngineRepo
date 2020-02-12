@@ -10,7 +10,8 @@ namespace BhanuEngine
 
 	BhanuEngineApp* BhanuEngineApp::s_Instance = nullptr;
 
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
+	//Delete this permanently after the end of this chapter and if no errors/exceptions
+	/*static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
 	{
 		switch(type)
 		{
@@ -29,7 +30,7 @@ namespace BhanuEngine
 
 		ENGINE_CORE_ASSERT(false , "Sir Bhanu, Unknown Shader Data Type :(");
 		return 0;
-	}
+	}*/
 
 	BhanuEngineApp::BhanuEngineApp() //Revise the difference between unique_ptr & make_unique
 	{
@@ -40,8 +41,11 @@ namespace BhanuEngine
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 		PushOverlay(m_ImGUILayer);
 
-		glGenVertexArrays(1 , &m_VertexArray);
-		glBindVertexArray(m_VertexArray);
+		//Delete this permanently after the end of this chapter and if no errors/exceptions
+		/*glGenVertexArrays(1 , &m_VertexArray);
+		glBindVertexArray(m_VertexArray);*/
+
+		m_VertexArray.reset(VertexArray::Create());
 
 		//No Triangle because of an exception thrown by OpenGL on Desktop but that wasn't thrown on the laptop
 		//To reproduce the no triangle/exception, just put the IndexBuffer code before VertexArray
@@ -53,30 +57,30 @@ namespace BhanuEngine
 		};
 
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices , sizeof(vertices)));
-
+		BufferLayout bufferLayout =
 		{
-			BufferLayout bufferLayout =
-			{
-				{ShaderDataType::FLOAT3 , "a_Position"},
-				{ShaderDataType::FLOAT4 , "a_Color"}
-			};
+			{ShaderDataType::FLOAT3 , "a_Position"},
+			{ShaderDataType::FLOAT4 , "a_Color"}
+		};
 
-			m_VertexBuffer->SetLayout(bufferLayout);
-		}
+		m_VertexBuffer->SetLayout(bufferLayout);
+		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 
-		//For fun, when you are free, try using regular for loop instead
-		uint32_t index = 0;
-		const auto& bufferLayout = m_VertexBuffer->GetLayout();
-		for(const auto& element : bufferLayout)
-		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index , element.GetComponentsCount() , ShaderDataTypeToOpenGLBaseType(element.Type) , element.Normalised ? GL_TRUE : GL_FALSE , bufferLayout.GetStride() , (const void*)element.Offset);
-			index++;
-		}
+		//Delete the following permanently after the end of this chapter and if no errors/exceptions
+		////For fun, when you are free, try using regular for loop instead
+		//uint32_t index = 0;
+		//const auto& bufferLayout = m_VertexBuffer->GetLayout();
+		//for(const auto& element : bufferLayout)
+		//{
+		//	glEnableVertexAttribArray(index);
+		//	glVertexAttribPointer(index , element.GetComponentsCount() , ShaderDataTypeToOpenGLBaseType(element.Type) , element.Normalised ? GL_TRUE : GL_FALSE , bufferLayout.GetStride() , (const void*)element.Offset);
+		//	index++;
+		//}
 
 		//These should come after VertexArray Binding so don't change the order	
 		uint32_t indices[3] = {0 , 1 , 2};
 		m_IndexBuffer.reset(IndexBuffer::Create(indices , sizeof(indices) / sizeof(uint32_t)));
+		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
 		//This way you don't have to write "\n" for every line and wonder what 'R' means :)
 		//'a' in a_Position represents Attribute
@@ -166,7 +170,11 @@ namespace BhanuEngine
 			glClear(GL_COLOR_BUFFER_BIT);
 			//In OpenGL this doesn't matter as long as you bind before the draw call but in the other APIs, this must be the first step like it's here now
 			m_Shader->Bind();
-			glBindVertexArray(m_VertexArray);
+			m_VertexArray->Bind();
+
+			//Delete this permanently after the end of this chapter and no errors/exceptions
+			//glBindVertexArray(m_VertexArray);
+
 			glDrawElements(GL_TRIANGLES , m_IndexBuffer->GetCount() , GL_UNSIGNED_INT , nullptr);
 
 			for(Layer* layer : m_LayerStack)

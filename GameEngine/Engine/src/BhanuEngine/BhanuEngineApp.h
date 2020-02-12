@@ -4,6 +4,7 @@
 #include "BhanuEngine/LayerStack.h"
 #include "Renderer/Buffer.h"
 #include "Renderer/Shader.h"
+#include "Renderer/VertexArray.h"
 #include "Window.h"
 
 namespace BhanuEngine
@@ -15,13 +16,12 @@ namespace BhanuEngine
 		    bool m_IsRunning = true;
 			ImGUILayer* m_ImGUILayer;
 			LayerStack m_LayerStack;
-			std::unique_ptr<Shader> m_Shader;
-			std::unique_ptr<IndexBuffer> m_IndexBuffer;
-			std::unique_ptr<VertexBuffer> m_VertexBuffer;
+			std::shared_ptr<Shader> m_Shader;
+			std::shared_ptr<IndexBuffer> m_IndexBuffer;
+			std::shared_ptr<VertexArray> m_VertexArray;
+			std::shared_ptr<VertexBuffer> m_VertexBuffer;
 			std::unique_ptr<Window> m_Window;
-			//unsigned int m_IndexBuffer; //Delete this permanently after this chapter finishes and no errors/exceptions
-			unsigned int m_VertexArray;
-			//unsigned int m_VertexBuffer; //Delete this permanently after this chapter finishes and no errors/exceptions
+			//unsigned int m_VertexArray; //Delete this permanently after the end of this chapter and if no errors/exceptions
 
 		private:
 		    bool OnWindowClose(WindowCloseEvent& e);
