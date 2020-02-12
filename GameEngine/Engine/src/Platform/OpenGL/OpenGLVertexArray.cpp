@@ -28,7 +28,8 @@ namespace BhanuEngine
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
-		glCreateVertexArrays(1 , &m_RendererID);
+		//glCreateVertexArrays(1 , &m_RendererID); //Just like Vertex/Index Buffers, Cherno used Create but for me Gen is working and not Create
+		glGenVertexArrays(1 , &m_RendererID);
 	}
 
 	void OpenGLVertexArray::Bind() const
