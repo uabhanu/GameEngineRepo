@@ -10,28 +10,6 @@ namespace BhanuEngine
 
 	BhanuEngineApp* BhanuEngineApp::s_Instance = nullptr;
 
-	//Delete this permanently after the end of this chapter and if no errors/exceptions
-	/*static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-	{
-		switch(type)
-		{
-			case BhanuEngine::ShaderDataType::BOOL:       return GL_BOOL;
-			case BhanuEngine::ShaderDataType::FLOAT:      return GL_FLOAT;
-			case BhanuEngine::ShaderDataType::FLOAT2:	  return GL_FLOAT;
-			case BhanuEngine::ShaderDataType::FLOAT3:	  return GL_FLOAT;
-			case BhanuEngine::ShaderDataType::FLOAT4:	  return GL_FLOAT;
-			case BhanuEngine::ShaderDataType::INT:        return GL_INT;
-			case BhanuEngine::ShaderDataType::INT2:       return GL_INT;
-			case BhanuEngine::ShaderDataType::INT3:		  return GL_INT;
-			case BhanuEngine::ShaderDataType::INT4:		  return GL_INT;
-			case BhanuEngine::ShaderDataType::MAT3:       return GL_FLOAT;
-			case BhanuEngine::ShaderDataType::MAT4:		  return GL_FLOAT;
-		}
-
-		ENGINE_CORE_ASSERT(false , "Sir Bhanu, Unknown Shader Data Type :(");
-		return 0;
-	}*/
-
 	BhanuEngineApp::BhanuEngineApp() //Revise the difference between unique_ptr & make_unique
 	{
 		ENGINE_CORE_ASSERT(!s_Instance , "Sir Bhanu, Application already exists :)");
@@ -40,10 +18,6 @@ namespace BhanuEngine
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
 		PushOverlay(m_ImGUILayer);
-
-		//Delete this permanently after the end of this chapter and if no errors/exceptions
-		/*glGenVertexArrays(1 , &m_VertexArray);
-		glBindVertexArray(m_VertexArray);*/
 
 		m_VertexArray.reset(VertexArray::Create());
 
@@ -56,31 +30,50 @@ namespace BhanuEngine
 			 0.0f ,  0.5f , 0.0f, 0.0, 0.0, 1.0, 1.0
 		};
 
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices , sizeof(vertices)));
+		std::shared_ptr<VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(VertexBuffer::Create(vertices , sizeof(vertices)));
 		BufferLayout bufferLayout =
 		{
 			{ShaderDataType::FLOAT3 , "a_Position"},
 			{ShaderDataType::FLOAT4 , "a_Color"}
 		};
 
-		m_VertexBuffer->SetLayout(bufferLayout);
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-
-		//Delete the following permanently after the end of this chapter and if no errors/exceptions
-		////For fun, when you are free, try using regular for loop instead
-		//uint32_t index = 0;
-		//const auto& bufferLayout = m_VertexBuffer->GetLayout();
-		//for(const auto& element : bufferLayout)
-		//{
-		//	glEnableVertexAttribArray(index);
-		//	glVertexAttribPointer(index , element.GetComponentsCount() , ShaderDataTypeToOpenGLBaseType(element.Type) , element.Normalised ? GL_TRUE : GL_FALSE , bufferLayout.GetStride() , (const void*)element.Offset);
-		//	index++;
-		//}
+		//When I swap these lines like Cherno did, I am not getting any Assert exception but instead, only triangle not rendering
+		vertexBuffer->SetLayout(bufferLayout);
+		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		//These should come after VertexArray Binding so don't change the order	
 		uint32_t indices[3] = {0 , 1 , 2};
-		m_IndexBuffer.reset(IndexBuffer::Create(indices , sizeof(indices) / sizeof(uint32_t)));
-		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
+		std::shared_ptr<IndexBuffer> indexBuffer;
+		indexBuffer.reset(IndexBuffer::Create(indices , sizeof(indices) / sizeof(uint32_t)));
+		m_VertexArray->SetIndexBuffer(indexBuffer);
+
+		m_SquareVertexArray.reset(VertexArray::Create());
+
+		float squareVertices[3 * 4] =
+		{
+			-0.75f , -0.75f , 0.0f, 
+			 0.75f , -0.75f , 0.0f, 
+			 0.75f ,  0.75f , 0.0f,
+			-0.75f ,  0.75f , 0.0f
+		};
+
+		std::shared_ptr<VertexBuffer> squareVertexBuffer;
+		squareVertexBuffer.reset(VertexBuffer::Create(squareVertices , sizeof(squareVertices)));
+
+		BufferLayout squareBufferLayout =
+		{
+			{ShaderDataType::FLOAT3 , "a_Position"}
+		};
+
+		//When I swap these lines like Cherno did, I am not getting any Assert exception but instead, only triangle not rendering
+		squareVertexBuffer->SetLayout(squareBufferLayout);
+		m_SquareVertexArray->AddVertexBuffer(squareVertexBuffer);
+
+		uint32_t squareIndices[6] = {0 , 1 , 2 , 2 , 3 , 0};
+		std::shared_ptr<IndexBuffer> squareIndexBuffer;
+		squareIndexBuffer.reset(IndexBuffer::Create(squareIndices , sizeof(squareIndices) / sizeof(uint32_t)));
+		m_SquareVertexArray->SetIndexBuffer(squareIndexBuffer);
 
 		//This way you don't have to write "\n" for every line and wonder what 'R' means :)
 		//'a' in a_Position represents Attribute
@@ -122,6 +115,41 @@ namespace BhanuEngine
 		)";
 
 		m_Shader.reset(new Shader(vertexSrc , fragmentSrc));
+
+		std::string squareVertexSrc =
+		R"(
+			#version 440 core
+
+			layout(location = 0) in vec3 a_Position;
+
+			out vec3 v_Position;
+			out vec4 v_Color;
+
+			void main()
+			{
+				v_Position = a_Position;
+				v_Color = a_Color;
+				gl_Position = vec4(a_Position , 1.0);	
+			}
+		)";
+
+		//This way you don't have to write "\n" for every line and wonder what 'R' means :)
+		//'a' in a_Position represents Attribute
+		std::string squareFragmentSrc = 
+		R"(
+			#version 440 core
+
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+
+			void main()
+			{
+				color = vec4(1.0 , 1.0 , 1.0 , 1.0);
+			}
+		)";
+
+		m_SquareShader.reset(new Shader(squareVertexSrc , squareVertexSrc));
 	}
 		
 	BhanuEngineApp::~BhanuEngineApp()
@@ -168,14 +196,15 @@ namespace BhanuEngine
 		{
 			glClearColor(0.0f , 0.2f , 0.2f , 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			m_SquareShader->Bind();
+			m_SquareVertexArray->Bind();
+			glDrawElements(GL_TRIANGLES , m_SquareVertexArray->GetIndexBuffer()->GetCount() , GL_UNSIGNED_INT , nullptr);
+
 			//In OpenGL this doesn't matter as long as you bind before the draw call but in the other APIs, this must be the first step like it's here now
 			m_Shader->Bind();
 			m_VertexArray->Bind();
-
-			//Delete this permanently after the end of this chapter and no errors/exceptions
-			//glBindVertexArray(m_VertexArray);
-
-			glDrawElements(GL_TRIANGLES , m_IndexBuffer->GetCount() , GL_UNSIGNED_INT , nullptr);
+			glDrawElements(GL_TRIANGLES , m_SquareVertexArray->GetIndexBuffer()->GetCount() , GL_UNSIGNED_INT , nullptr);
 
 			for(Layer* layer : m_LayerStack)
 				layer->OnUpdate();

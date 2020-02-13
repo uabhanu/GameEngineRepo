@@ -17,11 +17,11 @@ namespace BhanuEngine
 			ImGUILayer* m_ImGUILayer;
 			LayerStack m_LayerStack;
 			std::shared_ptr<Shader> m_Shader;
-			std::shared_ptr<IndexBuffer> m_IndexBuffer;
+			std::shared_ptr<Shader> m_SquareShader;
+			std::shared_ptr<IndexBuffer> m_SquareIndexBuffer;
+			std::shared_ptr<VertexArray> m_SquareVertexArray;
 			std::shared_ptr<VertexArray> m_VertexArray;
-			std::shared_ptr<VertexBuffer> m_VertexBuffer;
 			std::unique_ptr<Window> m_Window;
-			//unsigned int m_VertexArray; //Delete this permanently after the end of this chapter and if no errors/exceptions
 
 		private:
 		    bool OnWindowClose(WindowCloseEvent& e);
