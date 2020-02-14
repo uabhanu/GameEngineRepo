@@ -3,5 +3,19 @@
 
 namespace BhanuEngine
 {
-	RendererAPI Renderer::s_RendererAPI = RendererAPI::OPENGL;
+	void Renderer::BeginScene()
+	{
+
+	}
+
+	void Renderer::EndScene()
+	{
+
+	}
+
+	void Renderer::SubmitObject(const std::shared_ptr<VertexArray>& vertexArray)
+	{
+		vertexArray->Bind();
+		RenderCommand::DrawIndexed(vertexArray);
+	}
 }

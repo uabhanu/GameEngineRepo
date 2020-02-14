@@ -1,8 +1,7 @@
 #include "EnginePCH.h"
 #include "BhanuEngineApp.h"
+#include "BhanuEngine/Renderer/Renderer.h"
 #include "Input.h"
-
-#include <glad/glad.h>
 
 namespace BhanuEngine
 {
@@ -194,17 +193,18 @@ namespace BhanuEngine
 	{
 		while(m_IsRunning)
 		{
-			glClearColor(0.0f , 0.2f , 0.2f , 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor({0.0f , 0.2f , 0.2f , 1}); //Curly brackets is to create vec4 and I am seeing this usage for the 1st time
+			RenderCommand::Clear();
+
+			Renderer::BeginScene();
 
 			m_SquareShader->Bind();
-			m_SquareVertexArray->Bind();
-			glDrawElements(GL_TRIANGLES , m_SquareVertexArray->GetIndexBuffer()->GetCount() , GL_UNSIGNED_INT , nullptr);
+			Renderer::SubmitObject(m_SquareVertexArray);
 
-			//In OpenGL this doesn't matter as long as you bind before the draw call but in the other APIs, this must be the first step like it's here now
 			m_Shader->Bind();
-			m_VertexArray->Bind();
-			glDrawElements(GL_TRIANGLES , m_SquareVertexArray->GetIndexBuffer()->GetCount() , GL_UNSIGNED_INT , nullptr);
+			Renderer::SubmitObject(m_VertexArray);
+
+			Renderer::EndScene();
 
 			for(Layer* layer : m_LayerStack)
 				layer->OnUpdate();

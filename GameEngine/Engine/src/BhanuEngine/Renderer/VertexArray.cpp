@@ -9,12 +9,12 @@ namespace BhanuEngine
 	{
 		switch(Renderer::GetCurrentAPI())
 		{
-			case RendererAPI::NONE:
+			case RendererAPI::API::NONE:
 				ENGINE_CORE_ASSERT(false , "Sir Bhanu, Unable to get the current API :(");
 				return nullptr;
 			break;
 
-			case RendererAPI::OPENGL:
+			case RendererAPI::API::OPENGL:
 				return new OpenGLVertexArray();
 			break;
 		}

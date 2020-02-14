@@ -1,20 +1,17 @@
 #pragma once
 
+#include "RenderCommand.h"
+
 namespace BhanuEngine
 {
-	enum class RendererAPI
-	{
-		NONE = 0,
-		OPENGL = 1
-	};
-
 	class Renderer
 	{
-		private:
-		    static RendererAPI s_RendererAPI;
-
 		public:
-		    inline static RendererAPI GetCurrentAPI() { return s_RendererAPI; }
+		    static void BeginScene();
+			static void EndScene();
+			static void SubmitObject(const std::shared_ptr<VertexArray>& vertexArray);
+
+		    inline static RendererAPI::API GetCurrentAPI() { return RendererAPI::GetAPI(); }
 	};
 }
 
