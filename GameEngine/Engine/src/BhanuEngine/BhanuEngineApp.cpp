@@ -127,7 +127,6 @@ namespace BhanuEngine
 			void main()
 			{
 				v_Position = a_Position;
-				v_Color = a_Color;
 				gl_Position = vec4(a_Position , 1.0);	
 			}
 		)";
@@ -144,11 +143,11 @@ namespace BhanuEngine
 
 			void main()
 			{
-				color = vec4(1.0 , 1.0 , 1.0 , 1.0);
+				color = vec4(0.0 , 1.0 , 1.0 , 1.0);
 			}
 		)";
 
-		m_SquareShader.reset(new Shader(squareVertexSrc , squareVertexSrc));
+		m_SquareShader.reset(new Shader(squareVertexSrc , squareFragmentSrc));
 	}
 		
 	BhanuEngineApp::~BhanuEngineApp()
