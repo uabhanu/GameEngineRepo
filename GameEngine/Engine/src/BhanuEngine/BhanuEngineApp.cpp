@@ -22,11 +22,13 @@ namespace BhanuEngine
 
 		//No Triangle because of an exception thrown by OpenGL on Desktop but that wasn't thrown on the laptop
 		//To reproduce the no triangle/exception, just put the IndexBuffer code before VertexArray
+		//Triangle Colour : This is where you change the colour of the triangle
+		//Square Colour : Try to do it the same way as above as at this time, it's hardcoded in squareFragmentSrc
 		float vertices[3 * 7] =
 		{
-			-0.5f , -0.5f , 0.0f, 1.0, 0.0, 0.0, 1.0,
+			-0.5f , -0.5f , 0.0f, 0.0, 0.0, 1.0, 1.0,
 			 0.5f , -0.5f , 0.0f, 0.0, 1.0, 0.0, 1.0,
-			 0.0f ,  0.5f , 0.0f, 0.0, 0.0, 1.0, 1.0
+			 0.0f ,  0.5f , 0.0f, 1.0, 0.0, 0.0, 1.0
 		};
 
 		std::shared_ptr<VertexBuffer> vertexBuffer;
