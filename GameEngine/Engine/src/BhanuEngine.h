@@ -1,6 +1,7 @@
 #pragma once //This is for use by Engine Applications only
 
 #include "BhanuEngine/BhanuEngineApp.h"
+#include "BhanuEngine/Core/TimeStep.h"
 #include "BhanuEngine/ImGUI/ImGUILayer.h"
 #include "BhanuEngine/Input.h"
 #include "BhanuEngine/KeyCodes.h"

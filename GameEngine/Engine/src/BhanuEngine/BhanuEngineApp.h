@@ -15,6 +15,7 @@ namespace BhanuEngine
 		private:
 		    static BhanuEngineApp* s_Instance;
 		    bool m_IsRunning = true;
+			float m_LastFrameTime = 0.0f;
 			ImGUILayer* m_ImGUILayer;
 			LayerStack m_LayerStack;
 			std::unique_ptr<Window> m_Window;

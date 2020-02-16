@@ -3,6 +3,8 @@
 #include "BhanuEngine/Renderer/Renderer.h"
 #include "Input.h"
 
+#include <glfw/glfw3.h>
+
 namespace BhanuEngine
 {
 	#define BIND_EVENT_FN(x) std::bind(&BhanuEngineApp::x , this , std::placeholders::_1) //Wo!!!!!!
@@ -61,6 +63,10 @@ namespace BhanuEngine
 	{
 		while(m_IsRunning)
 		{
+			float time = (float)glfwGetTime();
+			m_LastFrameTime = time - m_LastFrameTime;
+			m_LastFrameTime = time;
+
 			for(Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
