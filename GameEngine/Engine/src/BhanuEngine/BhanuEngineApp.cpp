@@ -202,16 +202,13 @@ namespace BhanuEngine
 			RenderCommand::SetClearColor({0.0f , 0.2f , 0.2f , 1}); //Curly brackets is to create vec4 and I am seeing this usage for the 1st time
 			RenderCommand::Clear();
 
+			m_OrthographicCamera.SetPosition({0.5f , 0.5f , 0.0f}); //Square brackets inside regular ones? Hmmm
+			m_OrthographicCamera.SetRotation(45.0f);
+
 			Renderer::BeginScene(m_OrthographicCamera);
 
-			//Square will be rendered first and then the triangle at the top, if you do in the reverse, you can see the Square but not the Triangle as Triangle is lot smaller
-			m_SquareShader->Bind();
-			m_SquareShader->UploadUniformMat4("u_ViewProjectionMatrix" , m_OrthographicCamera.GetViewProjectionMatrix());
-			Renderer::SubmitObject(m_SquareVertexArray);
-
-			m_Shader->Bind();
-			m_Shader->UploadUniformMat4("u_ViewProjectionMatrix" , m_OrthographicCamera.GetViewProjectionMatrix());
-			Renderer::SubmitObject(m_VertexArray);
+			Renderer::SubmitObject(m_SquareShader , m_SquareVertexArray); //Renders Square First
+			Renderer::SubmitObject(m_Shader , m_VertexArray); //Traingle will be rendered on top of the square
 
 			Renderer::EndScene();
 
