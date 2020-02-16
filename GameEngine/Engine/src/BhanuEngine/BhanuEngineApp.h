@@ -17,12 +17,6 @@ namespace BhanuEngine
 		    bool m_IsRunning = true;
 			ImGUILayer* m_ImGUILayer;
 			LayerStack m_LayerStack;
-			OrthographicCamera m_OrthographicCamera;
-			std::shared_ptr<Shader> m_Shader;
-			std::shared_ptr<Shader> m_SquareShader;
-			std::shared_ptr<IndexBuffer> m_SquareIndexBuffer;
-			std::shared_ptr<VertexArray> m_SquareVertexArray;
-			std::shared_ptr<VertexArray> m_VertexArray;
 			std::unique_ptr<Window> m_Window;
 
 		private:
