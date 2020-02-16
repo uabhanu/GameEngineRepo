@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BhanuEngine/Core.h"
+#include "BhanuEngine/Core/TimeStep.h"
 #include "BhanuEngine/Events/Event.h"
 
 namespace BhanuEngine
@@ -18,7 +19,7 @@ namespace BhanuEngine
 			virtual void OnDetach() {}
 			virtual void OnEvent(Event& event) {}
 			virtual void OnImGUIRender() {}
-			virtual void OnUpdate() {}
+			virtual void OnUpdate(TimeStep timeStep) {}
 
 			inline const std::string& GetName() const { return m_DebugName; }
 	};

@@ -6,7 +6,7 @@ class BhanuTestLayer : public BhanuEngine::Layer
 {
 	private:
 	    BhanuEngine::OrthographicCamera m_OrthographicCamera;
-		float m_CameraMoveSpeed = 0.1f , m_CameraRotation , m_CameraRotationSpeed = 0.1f;
+		float m_CameraMoveSpeed = 3.0f , m_CameraRotation , m_CameraRotationSpeed = 180.0f;
 		glm::vec3 m_CameraPosition;
 		std::shared_ptr<BhanuEngine::Shader> m_Shader;
 		std::shared_ptr<BhanuEngine::Shader> m_SquareShader;
@@ -167,22 +167,22 @@ class BhanuTestLayer : public BhanuEngine::Layer
 			
 		}
 
-		void OnUpdate() override
+		void OnUpdate(BhanuEngine::TimeStep timeStep) override
 		{
 			if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_LEFT))
-				m_CameraPosition.x -= m_CameraMoveSpeed;
+				m_CameraPosition.x -= m_CameraMoveSpeed  * timeStep.GetSeconds();
 			else if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_RIGHT))
-				m_CameraPosition.x += m_CameraMoveSpeed;
+				m_CameraPosition.x += m_CameraMoveSpeed * timeStep.GetSeconds();
 
 			if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_DOWN))
-				m_CameraPosition.y -= m_CameraMoveSpeed;
+				m_CameraPosition.y -= m_CameraMoveSpeed * timeStep.GetSeconds();
 			else if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_UP))
-				m_CameraPosition.y += m_CameraMoveSpeed;
+				m_CameraPosition.y += m_CameraMoveSpeed * timeStep.GetSeconds();
 
 			if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_A))
-				m_CameraRotation += m_CameraRotationSpeed;
+				m_CameraRotation += m_CameraRotationSpeed * timeStep.GetSeconds();
 			else if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_D))
-				m_CameraRotation -= m_CameraRotationSpeed;
+				m_CameraRotation -= m_CameraRotationSpeed * timeStep.GetSeconds();
 
 			BhanuEngine::RenderCommand::SetClearColor({0.0f , 0.2f , 0.2f , 1}); //Curly brackets is to create vec4 and I am seeing this usage for the 1st time
 			BhanuEngine::RenderCommand::Clear();

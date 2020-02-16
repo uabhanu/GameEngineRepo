@@ -64,11 +64,11 @@ namespace BhanuEngine
 		while(m_IsRunning)
 		{
 			float time = (float)glfwGetTime();
-			m_LastFrameTime = time - m_LastFrameTime;
+			TimeStep timeStep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
 			for(Layer* layer : m_LayerStack)
-				layer->OnUpdate();
+				layer->OnUpdate(timeStep);
 
 			m_ImGUILayer->Begin();
 			for(Layer* layer : m_LayerStack)
