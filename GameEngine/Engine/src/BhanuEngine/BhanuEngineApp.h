@@ -2,6 +2,7 @@
 
 #include "BhanuEngine/ImGUI/ImGUILayer.h"
 #include "BhanuEngine/LayerStack.h"
+#include "BhanuEngine/Renderer/OrthographicCamera.h"
 #include "Renderer/Buffer.h"
 #include "Renderer/Shader.h"
 #include "Renderer/VertexArray.h"
@@ -16,6 +17,7 @@ namespace BhanuEngine
 		    bool m_IsRunning = true;
 			ImGUILayer* m_ImGUILayer;
 			LayerStack m_LayerStack;
+			OrthographicCamera m_OrthographicCamera;
 			std::shared_ptr<Shader> m_Shader;
 			std::shared_ptr<Shader> m_SquareShader;
 			std::shared_ptr<IndexBuffer> m_SquareIndexBuffer;

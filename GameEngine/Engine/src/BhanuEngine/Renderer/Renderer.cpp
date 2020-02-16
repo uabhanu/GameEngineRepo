@@ -3,7 +3,7 @@
 
 namespace BhanuEngine
 {
-	void Renderer::BeginScene()
+	void Renderer::BeginScene(OrthographicCamera& orthographicCamera)
 	{
 
 	}
@@ -13,8 +13,9 @@ namespace BhanuEngine
 
 	}
 
-	void Renderer::SubmitObject(const std::shared_ptr<VertexArray>& vertexArray)
+	void Renderer::SubmitObject(const std::shared_ptr<VertexArray>& vertexArray , const std::shared_ptr<Shader>& shader)
 	{
+		shader->Bind();
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
 	}

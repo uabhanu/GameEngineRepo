@@ -10,6 +10,7 @@ namespace BhanuEngine
 	BhanuEngineApp* BhanuEngineApp::s_Instance = nullptr;
 
 	BhanuEngineApp::BhanuEngineApp() //Revise the difference between unique_ptr & make_unique
+		: m_OrthographicCamera(-1.6f , 1.6f , -0.9f , 0.9f) //These are Ortho values so if these are higher, images are smaller and vice versa
 	{
 		ENGINE_CORE_ASSERT(!s_Instance , "Sir Bhanu, Application already exists :)");
 		s_Instance = this;
@@ -78,6 +79,7 @@ namespace BhanuEngine
 
 		//This way you don't have to write "\n" for every line and wonder what 'R' means :)
 		//'a' in a_Position represents Attribute
+		//'u' in a_Position represents Uniform
 		//'v' in v_Position represents Varying
 		std::string vertexSrc = 
 		R"(
@@ -86,6 +88,8 @@ namespace BhanuEngine
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
 
+			uniform mat4 u_ViewProjectionMatrix;
+
 			out vec3 v_Position;
 			out vec4 v_Color;
 
@@ -93,7 +97,7 @@ namespace BhanuEngine
 			{
 				v_Position = a_Position;
 				v_Color = a_Color;
-				gl_Position = vec4(a_Position , 1.0);	
+				gl_Position = u_ViewProjectionMatrix * vec4(a_Position , 1.0);	
 			}
 		)";
 
@@ -123,13 +127,14 @@ namespace BhanuEngine
 
 			layout(location = 0) in vec3 a_Position;
 
+			uniform mat4 u_ViewProjectionMatrix;
+
 			out vec3 v_Position;
-			out vec4 v_Color;
 
 			void main()
 			{
 				v_Position = a_Position;
-				gl_Position = vec4(a_Position , 1.0);	
+				gl_Position = u_ViewProjectionMatrix * vec4(a_Position , 1.0);	
 			}
 		)";
 
@@ -197,12 +202,15 @@ namespace BhanuEngine
 			RenderCommand::SetClearColor({0.0f , 0.2f , 0.2f , 1}); //Curly brackets is to create vec4 and I am seeing this usage for the 1st time
 			RenderCommand::Clear();
 
-			Renderer::BeginScene();
+			Renderer::BeginScene(m_OrthographicCamera);
 
+			//Square will be rendered first and then the triangle at the top, if you do in the reverse, you can see the Square but not the Triangle as Triangle is lot smaller
 			m_SquareShader->Bind();
+			m_SquareShader->UploadUniformMat4("u_ViewProjectionMatrix" , m_OrthographicCamera.GetViewProjectionMatrix());
 			Renderer::SubmitObject(m_SquareVertexArray);
 
 			m_Shader->Bind();
+			m_Shader->UploadUniformMat4("u_ViewProjectionMatrix" , m_OrthographicCamera.GetViewProjectionMatrix());
 			Renderer::SubmitObject(m_VertexArray);
 
 			Renderer::EndScene();

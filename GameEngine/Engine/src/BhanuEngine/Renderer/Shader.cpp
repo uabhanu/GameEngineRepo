@@ -1,7 +1,7 @@
 #include "EnginePCH.h"
 #include "Shader.h"
 
-#include <glad/glad.h>
+#include <glad/glad.h> //For some reason, this doesn't work in header file and even here, if placed at the top
 
 namespace BhanuEngine
 {
@@ -128,5 +128,11 @@ namespace BhanuEngine
 	void Shader::Unbind() const
 	{
 		glUseProgram(0);
+	}
+
+	void Shader::UploadUniformMat4(const std::string& name , const glm::mat4& matrix)
+	{
+		GLint location = glGetUniformLocation(m_RendererID , name.c_str());
+		glUniformMatrix4fv(location , 1 , GL_FALSE , glm::value_ptr(matrix)); //The cound '1' is not number of floats but number of matrices
 	}
 }
