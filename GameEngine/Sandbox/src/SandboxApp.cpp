@@ -1,13 +1,14 @@
 #include "BhanuEngine.h"
 
+#include <glm/gtc/matrix_transform.hpp>
 #include <imgui/imgui.h>
 
 class BhanuTestLayer : public BhanuEngine::Layer
 {
 	private:
 	    BhanuEngine::OrthographicCamera m_OrthographicCamera;
-		float m_CameraMoveSpeed = 3.0f , m_CameraRotation , m_CameraRotationSpeed = 180.0f;
-		glm::vec3 m_CameraPosition;
+		float m_CameraMoveSpeed = 5.0f , m_CameraRotation , m_CameraRotationSpeed = 180.0f , m_SquareMoveSpeed = 1.0f;
+		glm::vec3 m_CameraPosition , m_SquarePosition;
 		std::shared_ptr<BhanuEngine::Shader> m_Shader;
 		std::shared_ptr<BhanuEngine::Shader> m_SquareShader;
 		std::shared_ptr<BhanuEngine::IndexBuffer> m_SquareIndexBuffer;
@@ -16,7 +17,7 @@ class BhanuTestLayer : public BhanuEngine::Layer
 
 	public:
 		BhanuTestLayer()                    //These are Ortho values so if these are higher, images are smaller and vice versa 
-			: Layer("Bhanu's Test Layer") , m_OrthographicCamera(-1.6f , 1.6f , -0.9f , 0.9f) , m_CameraPosition(0.0f) , m_CameraRotation(0.0f)
+			: Layer("Bhanu's Test Layer") , m_OrthographicCamera(-1.6f , 1.6f , -0.9f , 0.9f) , m_CameraPosition(0.0f) , m_CameraRotation(0.0f) , m_SquarePosition(0.0f)
 		{
 			m_VertexArray.reset(BhanuEngine::VertexArray::Create());
 
@@ -88,6 +89,7 @@ class BhanuTestLayer : public BhanuEngine::Layer
 				layout(location = 1) in vec4 a_Color;
 
 				uniform mat4 u_ViewProjectionMatrix;
+				uniform mat4 u_Transform;
 
 				out vec3 v_Position;
 				out vec4 v_Color;
@@ -96,7 +98,7 @@ class BhanuTestLayer : public BhanuEngine::Layer
 				{
 					v_Position = a_Position;
 					v_Color = a_Color;
-					gl_Position = u_ViewProjectionMatrix * vec4(a_Position , 1.0);	
+					gl_Position = u_ViewProjectionMatrix * u_Transform * vec4(a_Position , 1.0);	
 				}
 			)";
 
@@ -127,13 +129,14 @@ class BhanuTestLayer : public BhanuEngine::Layer
 				layout(location = 0) in vec3 a_Position;
 
 				uniform mat4 u_ViewProjectionMatrix;
+				uniform mat4 u_Transform;
 
 				out vec3 v_Position;
 
 				void main()
 				{
 					v_Position = a_Position;
-					gl_Position = u_ViewProjectionMatrix * vec4(a_Position , 1.0);	
+					gl_Position = u_ViewProjectionMatrix * u_Transform * vec4(a_Position , 1.0);	
 				}
 			)";
 
@@ -184,6 +187,16 @@ class BhanuTestLayer : public BhanuEngine::Layer
 			else if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_D))
 				m_CameraRotation -= m_CameraRotationSpeed * timeStep.GetSeconds();
 
+			if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_J))
+				m_SquarePosition.x -= m_SquareMoveSpeed  * timeStep.GetSeconds();
+			else if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_K))
+				m_SquarePosition.x += m_SquareMoveSpeed * timeStep.GetSeconds();
+
+			if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_L))
+				m_SquarePosition.y -= m_SquareMoveSpeed * timeStep.GetSeconds();
+			else if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_M))
+				m_SquarePosition.y += m_SquareMoveSpeed * timeStep.GetSeconds();
+
 			BhanuEngine::RenderCommand::SetClearColor({0.0f , 0.2f , 0.2f , 1}); //Curly brackets is to create vec4 and I am seeing this usage for the 1st time
 			BhanuEngine::RenderCommand::Clear();
 
@@ -192,7 +205,9 @@ class BhanuTestLayer : public BhanuEngine::Layer
 
 			BhanuEngine::Renderer::BeginScene(m_OrthographicCamera);
 
-			BhanuEngine::Renderer::SubmitObject(m_SquareShader , m_SquareVertexArray); //Renders Square First
+			glm::mat4 transform = glm::translate(glm::mat4(1.0f) , m_SquarePosition);
+
+			BhanuEngine::Renderer::SubmitObject(m_SquareShader , m_SquareVertexArray , transform); //Renders Square First
 			BhanuEngine::Renderer::SubmitObject(m_Shader , m_VertexArray); //Traingle will be rendered on top of the square
 
 			BhanuEngine::Renderer::EndScene();

@@ -19,7 +19,7 @@ namespace BhanuEngine
 		public:
 		    static void BeginScene(OrthographicCamera& orthographicCamera);
 			static void EndScene();
-			static void SubmitObject(const std::shared_ptr<Shader>& shader , const std::shared_ptr<VertexArray>& vertexArray);
+			static void SubmitObject(const std::shared_ptr<Shader>& shader , const std::shared_ptr<VertexArray>& vertexArray , const glm::mat4& transform = glm::mat4(1.0f));
 
 		    inline static RendererAPI::API GetCurrentAPI() { return RendererAPI::GetAPI(); }
 	};
