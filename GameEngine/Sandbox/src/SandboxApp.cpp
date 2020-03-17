@@ -7,8 +7,8 @@ class BhanuTestLayer : public BhanuEngine::Layer
 {
 	private:
 	    BhanuEngine::OrthographicCamera m_OrthographicCamera;
-		float m_CameraMoveSpeed = 5.0f , m_CameraRotation , m_CameraRotationSpeed = 180.0f , m_SquareMoveSpeed = 1.0f;
-		glm::vec3 m_CameraPosition , m_SquarePosition;
+		float m_CameraMoveSpeed = 5.0f , m_CameraRotation , m_CameraRotationSpeed = 180.0f;
+		glm::vec3 m_CameraPosition;
 		std::shared_ptr<BhanuEngine::Shader> m_Shader;
 		std::shared_ptr<BhanuEngine::Shader> m_SquareShader;
 		std::shared_ptr<BhanuEngine::IndexBuffer> m_SquareIndexBuffer;
@@ -17,7 +17,7 @@ class BhanuTestLayer : public BhanuEngine::Layer
 
 	public:
 		BhanuTestLayer()                    //These are Ortho values so if these are higher, images are smaller and vice versa 
-			: Layer("Bhanu's Test Layer") , m_OrthographicCamera(-1.6f , 1.6f , -0.9f , 0.9f) , m_CameraPosition(0.0f) , m_CameraRotation(0.0f) , m_SquarePosition(0.0f)
+			: Layer("Bhanu's Test Layer") , m_OrthographicCamera(-1.6f , 1.6f , -0.9f , 0.9f) , m_CameraPosition(0.0f) , m_CameraRotation(0.0f)
 		{
 			m_VertexArray.reset(BhanuEngine::VertexArray::Create());
 
@@ -54,10 +54,10 @@ class BhanuTestLayer : public BhanuEngine::Layer
 
 			float squareVertices[3 * 4] =
 			{
-				-0.75f , -0.75f , 0.0f, 
-				 0.75f , -0.75f , 0.0f, 
-				 0.75f ,  0.75f , 0.0f,
-				-0.75f ,  0.75f , 0.0f
+				-0.5f , -0.5f , 0.0f, 
+				 0.5f , -0.5f , 0.0f, 
+				 0.5f ,  0.5f , 0.0f,
+				-0.5f ,  0.5f , 0.0f
 			};
 
 			std::shared_ptr<BhanuEngine::VertexBuffer> squareVertexBuffer;
@@ -187,16 +187,6 @@ class BhanuTestLayer : public BhanuEngine::Layer
 			else if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_D))
 				m_CameraRotation -= m_CameraRotationSpeed * timeStep.GetSeconds();
 
-			if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_J))
-				m_SquarePosition.x -= m_SquareMoveSpeed  * timeStep.GetSeconds();
-			else if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_K))
-				m_SquarePosition.x += m_SquareMoveSpeed * timeStep.GetSeconds();
-
-			if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_L))
-				m_SquarePosition.y -= m_SquareMoveSpeed * timeStep.GetSeconds();
-			else if(BhanuEngine::Input::IsKeyPressed(ENGINE_KEY_M))
-				m_SquarePosition.y += m_SquareMoveSpeed * timeStep.GetSeconds();
-
 			BhanuEngine::RenderCommand::SetClearColor({0.0f , 0.2f , 0.2f , 1}); //Curly brackets is to create vec4 and I am seeing this usage for the 1st time
 			BhanuEngine::RenderCommand::Clear();
 
@@ -205,10 +195,18 @@ class BhanuTestLayer : public BhanuEngine::Layer
 
 			BhanuEngine::Renderer::BeginScene(m_OrthographicCamera);
 
-			glm::mat4 transform = glm::translate(glm::mat4(1.0f) , m_SquarePosition);
+			glm::mat4 scale = glm::scale(glm::mat4(1.0f) , glm::vec3(0.1f));
 
-			BhanuEngine::Renderer::SubmitObject(m_SquareShader , m_SquareVertexArray , transform); //Renders Square First
-			BhanuEngine::Renderer::SubmitObject(m_Shader , m_VertexArray); //Traingle will be rendered on top of the square
+			for(int y = 0; y < 20; y++)
+			{
+				for(int x = 0; x < 20; x++)
+				{
+					glm::vec3 position(x * 0.11f , y * 0.11f , 0.0f);
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f) , position) * scale;
+					BhanuEngine::Renderer::SubmitObject(m_SquareShader , m_SquareVertexArray , transform); //Renders Square First
+					BhanuEngine::Renderer::SubmitObject(m_Shader , m_VertexArray); //Traingle will be rendered on top of the square
+				}
+			}
 
 			BhanuEngine::Renderer::EndScene();
 		}
